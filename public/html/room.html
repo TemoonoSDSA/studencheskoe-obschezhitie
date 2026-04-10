@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали комнаты - Уютный Дом</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .room-detail { background: rgba(15, 23, 42, 0.7); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-top: 40px; border: 1px solid rgba(129, 140, 248, 0.15); }
+        .neighbor-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+        .neighbor-card { background: rgba(15, 23, 42, 0.5); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid rgba(129, 140, 248, 0.15); }
+        .neighbor-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; background: #334155; }
+        .back-link { display: inline-block; margin-top: 30px; color: #818cf8; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="room-type-title">Загрузка...</h1>
+    <p>Детальная информация о вашем будущем жилье</p>
+</header>
+
+<nav>
+    <div class="nav-right">
+        <div class="burger-menu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
+    </div>
+    <div class="nav-links">
+        <a href="/">Главная</a>
+        <a href="/#rooms">Все комнаты</a>
+    </div>
+</nav>
+<main>
+    <div class="room-detail glass">
+        <h2 id="room-name">Тип комнаты</h2>
+        <p id="room-description">Описание загружается...</p>
+        
+        <div class="info-grid">
+            <div class="info-card glass">
+                <h3>Вместимость</h3>
+                <p id="room-capacity">...</p>
+            </div>
+            <div class="info-card glass">
+                <h3>Оснащение</h3>
+                <p>Wi-Fi 6G, Кондиционер, Смарт-замок</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 40px;">👥 Ваши потенциальные соседи</h3>
+        <p>Эти студенты уже забронировали места в этой категории комнат:</p>
+        <div class="neighbor-list" id="neighbor-list">
+            <!-- Соседи будут здесь -->
+        </div>
+
+        <a href="/" class="back-link">← Вернуться к выбору</a>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 «Уютный Дом». Все права защищены.</p>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navLinks = document.querySelector(".nav-links");
+        const burger = document.querySelector(".burger-menu");
+        navLinks.classList.toggle("open");
+        burger.classList.toggle("active");
+    }
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+        link.addEventListener("click", () => {
+            document.querySelector(".nav-links").classList.remove("open");
+            document.querySelector(".burger-menu").classList.remove("active");
+        });
+    });
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
+
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-theme');
+    } else {
+        document.body.classList.remove('light-theme');
+    }
+
+    const roomData = {        'standard': { title: 'Стандарт', desc: 'Уютная комната с панорамным видом на парк. Идеальный баланс цены и комфорта.', cap: '2 человека' },
+        'comfort': { title: 'Комфорт', desc: 'Просторная комната с собственной мини-кухней и зоной для отдыха. Повышенная звукоизоляция.', cap: '3 человека' },
+        'economy': { title: 'Эконом+', desc: 'Функциональная комната для активных студентов. Максимальная социализация и доступность.', cap: '4 человека' }
+    };
+
+    const path = window.location.pathname.split('/');
+    const type = path[path.length - 1];
+    const data = roomData[type] || roomData['standard'];
+
+    document.getElementById('room-type-title').innerText = 'Комната «' + data.title + '»';
+    document.getElementById('room-name').innerText = 'Категория: ' + data.title;
+    document.getElementById('room-description').innerText = data.desc;
+    document.getElementById('room-capacity').innerText = data.cap;
+
+    // Генерация случайных соседей
+    const names = ['Александр', 'Мария', 'Иван', 'Елена', 'Дмитрий', 'Анна', 'Сергей', 'Ольга', 'Максим', 'Виктория'];
+    const surnames = ['Ивановы', 'Петровы', 'Смирновы', 'Кузнецовы', 'Поповы', 'Васильевы', 'Соколовы'];
+    const groups = ['101', '102', '104', '105', '108'];
+
+    const neighborList = document.getElementById('neighbor-list');
+    const count = Math.floor(Math.random() * 3) + 1; // 1-3 соседа
+
+    for (let i = 0; i < count; i++) {
+        const name = names[Math.floor(Math.random() * names.length)];
+        const surname = surnames[Math.floor(Math.random() * surnames.length)];
+        const group = groups[Math.floor(Math.random() * groups.length)];
+        
+        const card = document.createElement('div');
+        card.className = 'neighbor-card';
+        card.innerHTML = `
+            <div style="font-size: 40px; margin-bottom: 10px;">👤</div>
+            <strong>${name} ${surname}</strong>
+            <p style="font-size: 12px; color: #666;">Группа ${group}</p>
+        `;
+        neighborList.appendChild(card);
+    }
+</script>
+
+</body>
+</html>

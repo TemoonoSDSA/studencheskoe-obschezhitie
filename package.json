@@ -1,0 +1,21 @@
+{
+  "name": "dormitory-project",
+  "version": "1.0.0",
+  "description": "Student dormitory website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "docx": "^9.6.1",
+    "express": "^4.22.1",
+    "express-rate-limit": "^8.3.1",
+    "express-session": "^1.19.0",
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.4",
+    "socket.io": "^4.8.3",
+    "sqlite3": "^6.0.1"
+  }
+}

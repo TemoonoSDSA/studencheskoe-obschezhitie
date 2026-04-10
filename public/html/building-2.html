@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Северный корпус | Уютный Дом</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', system-ui, sans-serif; background: var(--bg); color: var(--text-main); overflow-x: hidden; }
+
+        .hero-building {
+            min-height: 70vh;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            background: url('/room/2.jpg') center/cover no-repeat;
+            overflow: hidden;
+        }
+        .hero-building::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.3) 50%, rgba(15,23,42,0.1) 100%);
+        }
+        .hero-building-content {
+            position: relative;
+            z-index: 2;
+            padding: 60px 40px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .hero-building-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+        }
+        .hero-building-content .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .hero-building-content p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+        .back-link:hover { background: rgba(255,255,255,0.2); }
+
+        .content-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--text-bright);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        .info-card {
+            padding: 24px;
+            border-radius: 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .info-card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+        .info-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .info-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+        .feature-item i {
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+        .feature-item span {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--success), #059669);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+        }
+        .cta-section h2 { font-size: 1.5rem; margin-bottom: 12px; }
+        .cta-section p { opacity: 0.9; margin-bottom: 20px; }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--text-bright);
+            color: var(--success);
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { display: block; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; max-width: 550px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .modal h2 { margin-bottom: 20px; font-size: 1.4rem; color: var(--text-bright); }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--glass-border); background: var(--bg); color: var(--text-bright); border-radius: 10px; font-size: 0.9rem; font-family: inherit; }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        .form-error { color: var(--danger); font-size: 0.85rem; margin-top: 6px; display: none; }
+        .form-submit { width: 100%; padding: 14px; background: var(--success); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 10px; }
+        .form-submit:hover { background: #059669; }
+
+        @media (max-width: 768px) {
+            .hero-building-content h1 { font-size: 2rem; }
+            .hero-building { min-height: 50vh; }
+            .hero-building-content { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-building">
+        <div class="hero-building-content">
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> На главную</a>
+            <div class="badge">Корпус №2</div>
+            <h1>Северный корпус</h1>
+            <p>Новейший корпус с панорамным видом на парк. Тихие зоны для учёбы, читальный зал и собственный спортзал — всё для продуктивной и комфортной студенческой жизни.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 class="section-title">О корпусе</h2>
+        <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 40px;">
+            Северный корпус — это новый корпус, построенный с учётом всех современных стандартов комфорта. Расположен в тихой части кампуса, рядом с парковой зоной. Идеально подходит для студентов, которые ценят тишину и спокойствие. Оснащён читальным залом, спортзалом и зонами для групповой работы.
+        </p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="icon" style="background: rgba(16,185,129,0.1); color: var(--success);"><i class="fas fa-bed"></i></div>
+                <h3>80 комнат</h3>
+                <p>Просторные номера с увеличенной площадью</p>
+            </div>
+            <div class="info-card">
+                <div class="icon" style="background: rgba(99,102,241,0.1); color: var(--primary);"><i class="fas fa-users"></i></div>
+                <h3>400 студентов</h3>
+                <p>Вместимость — до 400 проживающих</p>
+            </div>
+            <div class="info-card">
+                <div class="icon" style="background: rgba(245,158,11,0.1); color: var(--accent);"><i class="fas fa-building"></i></div>
+                <h3>4 этажа</h3>
+                <p>Лифт, прачечная, зоны отдыха и коворкинг</p>
+            </div>
+            <div class="info-card">
+                <div class="icon" style="background: rgba(239,68,68,0.1); color: var(--danger);"><i class="fas fa-tree"></i></div>
+                <h3>Парковая зона</h3>
+                <p>Вид на парк, прогулочные дорожки, зоны барбекю</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Удобства и сервисы</h2>
+        <div class="features-list">
+            <div class="feature-item"><i class="fas fa-wifi"></i><span>Wi-Fi 6G</span></div>
+            <div class="feature-item"><i class="fas fa-snowflake"></i><span>Кондиционер</span></div>
+            <div class="feature-item"><i class="fas fa-shower"></i><span>Душевые</span></div>
+            <div class="feature-item"><i class="fas fa-tshirt"></i><span>Прачечная</span></div>
+            <div class="feature-item"><i class="fas fa-book"></i><span>Читальный зал</span></div>
+            <div class="feature-item"><i class="fas fa-dumbbell"></i><span>Спортзал</span></div>
+            <div class="feature-item"><i class="fas fa-laptop"></i><span>Коворкинг</span></div>
+            <div class="feature-item"><i class="fas fa-broom"></i><span>Уборка</span></div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Северный корпус — тишина и комфорт!</h2>
+            <p>Парковая зона, современный ремонт и всё необходимое для комфортной учёбы.</p>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление общежитием — Админ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Montserrat', sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
+        .card { background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); border: 1px solid #334155; }
+        h1 { margin-bottom: 20px; color: #f1f5f9; }
+        h2 { margin-bottom: 15px; color: #e2e8f0; font-size: 1.3rem; }
+        h3 { margin: 15px 0 10px; color: #94a3b8; font-size: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; border: 1px solid #334155; text-align: left; font-size: 0.9rem; color: #e2e8f0; }
+        th { background: rgba(99, 102, 241, 0.1); font-weight: 600; color: #f1f5f9; }
+        tr:hover td { background: rgba(99, 102, 241, 0.05); }
+        input, select, textarea { padding: 8px 12px; border: 1px solid #475569; border-radius: 8px; font-size: 0.9rem; background: #1e293b; color: #e2e8f0; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+        input::placeholder, textarea::placeholder { color: #64748b; }
+        button { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .btn-primary { background: #6366f1; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+        .form-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; align-items: flex-end; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-group label { font-size: 0.8rem; color: #94a3b8; font-weight: 600; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { padding: 10px 20px; background: #1e293b; border: 1px solid #334155; border-radius: 10px 10px 0 0; cursor: pointer; font-weight: 600; font-size: 0.9rem; color: #94a3b8; }
+        .tab:hover { background: rgba(99,102,241,0.1); color: #e2e8f0; }
+        .tab.active { background: #6366f1; color: white; border-color: transparent; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .badge { padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; color: white; }
+        .badge-available { background: #10b981; }
+        .badge-booked { background: #f59e0b; }
+        .badge-active { background: #6366f1; }
+        .badge-cancelled { background: #94a3b8; }
+        .badge-completed { background: #10b981; }
+        .badge-pending { background: #f59e0b; }
+        .badge-done { background: #10b981; }
+        .badge-missed { background: #ef4444; }
+        .badge-planned { background: #6366f1; }
+        .back-link { display: inline-block; margin-bottom: 15px; color: #818cf8; text-decoration: none; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
+        .error-msg { color: #fca5a5; font-size: 0.85rem; margin-top: 4px; display: none; }
+        .error-msg.visible { display: block; }
+        .success-msg { color: #6ee7b7; font-size: 0.85rem; margin-top: 4px; display: none; }
+        .success-msg.visible { display: block; }
+        #duty-student-name { background: #0f172a; }
+    </style>
+</head>
+<body>
+    <a href="/admin/users" class="back-link"><i class="fas fa-arrow-left"></i> Назад к админке</a>
+    <div class="card">
+        <h1><i class="fas fa-building"></i> Управление общежитием</h1>
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('laundry')"><i class="fas fa-tshirt"></i> Записи на стирку</div>
+            <div class="tab" onclick="switchTab('duty')"><i class="fas fa-broom"></i> Дежурства и уборка</div>
+            <div class="tab" onclick="switchTab('subbotnik')"><i class="fas fa-leaf"></i> Субботники</div>
+        </div>
+
+        <!-- Записи на стирку -->
+        <div id="tab-laundry" class="tab-content active">
+            <h2>Записи на стирку</h2>
+            <div id="laundry-list"></div>
+        </div>
+
+        <!-- Дежурства -->
+        <div id="tab-duty" class="tab-content">
+            <h2>График дежурств</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Комната</label>
+                    <select id="duty-room">
+                        <option value="">— Выберите комнату —</option>
+                    </select>
+                    <div id="duty-room-error" class="error-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>ID студента</label>
+                    <input type="text" id="duty-student-id" placeholder="Введите логин студента">
+                    <div id="duty-student-error" class="error-msg"></div>
+                    <div id="duty-student-success" class="success-msg"></div>
+                </div>
+                <div class="form-group">
+                    <label>ФИО студента</label>
+                    <input type="text" id="duty-student-name" placeholder="Заполняется автоматически" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Дата дежурства</label>
+                    <input type="date" id="duty-date">
+                </div>
+                <button class="btn-primary" onclick="addDuty()"><i class="fas fa-plus"></i> Добавить</button>
+            </div>
+            <div id="duty-list"></div>
+        </div>
+
+        <!-- Субботники -->
+        <div id="tab-subbotnik" class="tab-content">
+            <h2>Субботники</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" id="sub-title" placeholder="напр. Весенний субботник">
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="sub-desc" rows="2" placeholder="Описание задач"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Дата</label>
+                    <input type="date" id="sub-date">
+                </div>
+                <div class="form-group">
+                    <label>Время</label>
+                    <input type="time" id="sub-time">
+                </div>
+                <div class="form-group">
+                    <label>Место</label>
+                    <input type="text" id="sub-location" placeholder="напр. Двор корпуса 1">
+                </div>
+                <button class="btn-primary" onclick="addSubbotnik()"><i class="fas fa-plus"></i> Добавить</button>
+            </div>
+            <div id="subbotnik-list"></div>
+        </div>
+    </div>
+
+    <script>
+        function escapeHtml(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.closest('.tab').classList.add('active');
+            if (tab === 'laundry') loadLaundryBookings();
+            if (tab === 'duty') loadDutySchedule();
+            if (tab === 'subbotnik') loadSubbotniks();
+        }
+
+        // ===== Записи на стирку =====
+        function loadLaundryBookings() {
+            fetch('/api/admin/laundry-bookings')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success || !data.rows || data.rows.length === 0) {
+                        document.getElementById('laundry-list').innerHTML = '<p style="opacity:0.7;">Нет записей.</p>';
+                        return;
+                    }
+                    let html = '<table><tr><th>Студент</th><th>Дата</th><th>Время</th><th>Машина</th><th>Статус</th><th>Действия</th></tr>';
+                    data.rows.forEach(r => {
+                        html += '<tr>' +
+                            '<td>' + escapeHtml(r.student_id) + '</td>' +
+                            '<td>' + escapeHtml(r.date) + '</td>' +
+                            '<td>' + escapeHtml(r.time_slot) + '</td>' +
+                            '<td>#' + escapeHtml(r.machine_number) + '</td>' +
+                            '<td><span class="badge badge-' + escapeHtml(r.status) + '">' + ({active:'Активна',cancelled:'Отменена',completed:'Завершена'}[r.status] || r.status) + '</span></td>' +
+                            '<td><button class="btn-danger btn-sm" onclick="deleteLaundry(' + r.id + ')">Удалить</button></td>' +
+                        '</tr>';
+                    });
+                    html += '</table>';
+                    document.getElementById('laundry-list').innerHTML = html;
+                });
+        }
+
+        function deleteLaundry(id) {
+            if (!confirm('Удалить эту запись?')) return;
+            fetch('/api/admin/laundry-bookings/' + id, { method: 'DELETE' })
+                .then(res => res.json())
+                .then(data => { if (data.success) loadLaundryBookings(); else alert(data.error); });
+        }
+
+        // ===== Дежурства =====
+        function loadDutySchedule() {
+            fetch('/api/admin/duty-schedule')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success || !data.rows || data.rows.length === 0) {
+                        document.getElementById('duty-list').innerHTML = '<p style="opacity:0.7;">Нет записей.</p>';
+                        return;
+                    }
+                    let html = '<table><tr><th>Комната</th><th>Студент</th><th>Дата</th><th>Статус</th><th>Действия</th></tr>';
+                    data.rows.forEach(r => {
+                        html += '<tr>' +
+                            '<td>' + escapeHtml(r.room_number) + '</td>' +
+                            '<td>' + escapeHtml(r.student_name) + ' (' + escapeHtml(r.student_id) + ')</td>' +
+                            '<td>' + escapeHtml(r.duty_date) + '</td>' +
+                            '<td><span class="badge badge-' + escapeHtml(r.status) + '">' + escapeHtml(r.status) + '</span></td>' +
+                            '<td>' +
+                                '<select onchange="updateDutyStatus(' + r.id + ', this.value)" style="margin-right:5px;">' +
+                                    '<option value="pending" ' + (r.status === 'pending' ? 'selected' : '') + '>Ожидает</option>' +
+                                    '<option value="done" ' + (r.status === 'done' ? 'selected' : '') + '>Выполнено</option>' +
+                                    '<option value="missed" ' + (r.status === 'missed' ? 'selected' : '') + '>Пропущено</option>' +
+                                '</select>' +
+                                '<button class="btn-danger btn-sm" onclick="deleteDuty(' + r.id + ')">Удалить</button>' +
+                            '</td>' +
+                        '</tr>';
+                    });
+                    html += '</table>';
+                    document.getElementById('duty-list').innerHTML = html;
+                });
+        }
+
+        function addDuty() {
+            const room = document.getElementById('duty-room').value;
+            const sid = document.getElementById('duty-student-id').value;
+            const date = document.getElementById('duty-date').value;
+            const roomError = document.getElementById('duty-room-error');
+            const studentError = document.getElementById('duty-student-error');
+            roomError.classList.remove('visible');
+            studentError.classList.remove('visible');
+            if (!room) { roomError.textContent = 'Выберите комнату'; roomError.classList.add('visible'); return; }
+            if (!sid) { studentError.textContent = 'Введите ID студента'; studentError.classList.add('visible'); return; }
+            if (!date) { alert('Выберите дату дежурства'); return; }
+            fetch('/api/admin/duty-schedule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ room_number: room, student_id: sid, duty_date: date })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) { loadDutySchedule(); document.getElementById('duty-room').value = ''; document.getElementById('duty-student-id').value = ''; document.getElementById('duty-student-name').value = ''; document.getElementById('duty-date').value = ''; }
+                else {
+                    if (data.error && data.error.includes('Комната')) { roomError.textContent = data.error; roomError.classList.add('visible'); }
+                    else if (data.error && data.error.includes('Студент')) { studentError.textContent = data.error; studentError.classList.add('visible'); }
+                    else { alert(data.error); }
+                }
+            });
+        }
+
+        let lookupTimeout;
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentInput = document.getElementById('duty-student-id');
+            if (studentInput) {
+                studentInput.addEventListener('input', function() {
+                    clearTimeout(lookupTimeout);
+                    const val = this.value.trim();
+                    const errorEl = document.getElementById('duty-student-error');
+                    const successEl = document.getElementById('duty-student-success');
+                    const nameEl = document.getElementById('duty-student-name');
+                    errorEl.classList.remove('visible');
+                    successEl.classList.remove('visible');
+                    nameEl.value = '';
+                    if (val.length < 2) return;
+                    lookupTimeout = setTimeout(() => {
+                        fetch('/api/admin/students-groups/lookup/' + encodeURIComponent(val))
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    nameEl.value = data.student.full_name;
+                                    successEl.textContent = 'Найден: ' + data.student.full_name + ' (группа ' + data.student.group_number + ', комн. ' + (data.student.room || '—') + ')';
+                                    successEl.classList.add('visible');
+                                } else {
+                                    errorEl.textContent = data.error || 'Студент не найден';
+                                    errorEl.classList.add('visible');
+                                }
+                            })
+                            .catch(() => {
+                                errorEl.textContent = 'Ошибка поиска';
+                                errorEl.classList.add('visible');
+                            });
+                    }, 400);
+                });
+            }
+
+            loadRooms();
+            const today = new Date().toISOString().split('T')[0];
+            const dutyDate = document.getElementById('duty-date');
+            if (dutyDate) dutyDate.min = today;
+            const subDate = document.getElementById('sub-date');
+            if (subDate) subDate.min = today;
+            const subTime = document.getElementById('sub-time');
+            if (subTime) {
+                subTime.addEventListener('change', function() {
+                    if (subDate.value === today) {
+                        const now = new Date();
+                        const [h, m] = this.value.split(':');
+                        const selectedTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+                        if (selectedTime <= now) {
+                            alert('Нельзя выбрать прошедшее время');
+                            this.value = '';
+                        }
+                    }
+                });
+            }
+        });
+
+        function loadRooms() {
+            fetch('/api/admin/rooms')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success) return;
+                    const select = document.getElementById('duty-room');
+                    select.innerHTML = '<option value="">— Выберите комнату —</option>';
+                    data.rooms.forEach(r => {
+                        const opt = document.createElement('option');
+                        opt.value = r;
+                        opt.textContent = 'Комната ' + r;
+                        select.appendChild(opt);
+                    });
+                });
+        }
+
+        function updateDutyStatus(id, status) {
+            fetch('/api/admin/duty-schedule/' + id + '/status', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(res => res.json())
+            .then(data => { if (!data.success) alert(data.error); });
+        }
+
+        function deleteDuty(id) {
+            if (!confirm('Удалить эту запись?')) return;
+            fetch('/api/admin/duty-schedule/' + id, { method: 'DELETE' })
+                .then(res => res.json())
+                .then(data => { if (data.success) loadDutySchedule(); else alert(data.error); });
+        }
+
+        // ===== Субботники =====
+        function loadSubbotniks() {
+            fetch('/api/admin/subbotniks')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.success || !data.rows || data.rows.length === 0) {
+                        document.getElementById('subbotnik-list').innerHTML = '<p style="opacity:0.7;">Нет записей.</p>';
+                        return;
+                    }
+                    let html = '<table><tr><th>Название</th><th>Дата</th><th>Время</th><th>Место</th><th>Статус</th><th>Действия</th></tr>';
+                    data.rows.forEach(r => {
+                        html += '<tr>' +
+                            '<td>' + escapeHtml(r.title) + '</td>' +
+                            '<td>' + escapeHtml(r.event_date) + '</td>' +
+                            '<td>' + escapeHtml(r.event_time) + '</td>' +
+                            '<td>' + escapeHtml(r.location) + '</td>' +
+                            '<td>' +
+                                '<select onchange="updateSubbotnikStatus(' + r.id + ', this.value)">' +
+                                    '<option value="planned" ' + (r.status === 'planned' ? 'selected' : '') + '>Запланирован</option>' +
+                                    '<option value="done" ' + (r.status === 'done' ? 'selected' : '') + '>Завершён</option>' +
+                                    '<option value="cancelled" ' + (r.status === 'cancelled' ? 'selected' : '') + '>Отменён</option>' +
+                                '</select>' +
+                            '</td>' +
+                            '<td>' +
+                                '<button class="btn-warning btn-sm" onclick="editSubbotnik(' + r.id + ')">Ред.</button> ' +
+                                '<button class="btn-danger btn-sm" onclick="deleteSubbotnik(' + r.id + ')">Удалить</button>' +
+                            '</td>' +
+                        '</tr>';
+                    });
+                    html += '</table>';
+                    document.getElementById('subbotnik-list').innerHTML = html;
+                });
+        }
+
+        function addSubbotnik() {
+            const title = document.getElementById('sub-title').value;
+            const desc = document.getElementById('sub-desc').value;
+            const date = document.getElementById('sub-date').value;
+            const time = document.getElementById('sub-time').value;
+            const loc = document.getElementById('sub-location').value;
+            if (!title || !date || !time || !loc) { alert('Заполните обязательные поля'); return; }
+            fetch('/api/admin/subbotniks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description: desc, event_date: date, event_time: time, location: loc })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) { loadSubbotniks(); document.getElementById('sub-title').value = ''; document.getElementById('sub-desc').value = ''; document.getElementById('sub-date').value = ''; document.getElementById('sub-time').value = ''; document.getElementById('sub-location').value = ''; }
+                else { alert(data.error); }
+            });
+        }
+
+        function editSubbotnik(id) {
+            const newTitle = prompt('Новое название:');
+            if (!newTitle) return;
+            const newDate = prompt('Новая дата (YYYY-MM-DD):');
+            if (!newDate) return;
+            const newTime = prompt('Новое время (HH:MM):');
+            if (!newTime) return;
+            const newLoc = prompt('Новое место:');
+            if (!newLoc) return;
+            fetch('/api/admin/subbotniks/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: newTitle, description: '', event_date: newDate, event_time: newTime, location: newLoc, status: 'planned' })
+            })
+            .then(res => res.json())
+            .then(data => { if (data.success) loadSubbotniks(); else alert(data.error); });
+        }
+
+        function updateSubbotnikStatus(id, status) {
+            fetch('/api/admin/subbotniks/' + id + '/status', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(res => res.json())
+            .then(data => { if (!data.success) alert(data.error); });
+        }
+
+        function deleteSubbotnik(id) {
+            if (!confirm('Удалить этот субботник?')) return;
+            fetch('/api/admin/subbotniks/' + id, { method: 'DELETE' })
+                .then(res => res.json())
+                .then(data => { if (data.success) loadSubbotniks(); else alert(data.error); });
+        }
+
+        // ===== Инициализация =====
+        loadLaundryBookings();
+    </script>
+</body>
+</html>

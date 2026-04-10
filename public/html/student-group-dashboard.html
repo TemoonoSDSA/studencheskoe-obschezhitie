@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя подгруппа</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Montserrat', sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; min-height: 100vh; }
+        .card { background: rgba(30, 41, 59, 0.8); padding: 24px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); border: 1px solid #334155; }
+        h1 { color: #f1f5f9; margin-bottom: 6px; }
+        .subtitle { color: #94a3b8; margin-bottom: 20px; font-size: 0.95rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .logout-btn { padding: 10px 20px; background: #ef4444; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem; }
+        .logout-btn:hover { opacity: 0.9; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border: 1px solid #334155; text-align: left; color: #e2e8f0; }
+        th { background: rgba(99, 102, 241, 0.1); font-weight: 600; color: #f1f5f9; }
+        tr:hover td { background: rgba(99, 102, 241, 0.05); }
+        .badge { display: inline-block; padding: 4px 12px; background: #6366f1; color: white; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .me-badge { background: #10b981; margin-left: 6px; font-size: 0.75rem; }
+        .info { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
+        .info-item { background: rgba(30, 41, 59, 0.8); padding: 12px 18px; border-radius: 10px; border: 1px solid #334155; }
+        .info-item strong { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 2px; }
+        .info-item span { font-size: 1rem; color: #f1f5f9; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>Моя подгруппа</h1>
+            <p class="subtitle" id="subtitle">Загрузка...</p>
+        </div>
+        <a href="/student-group-logout" class="logout-btn">Выйти</a>
+    </div>
+    <div class="card">
+        <div class="info" id="myInfo"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Подгруппа</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                </tr>
+            </thead>
+            <tbody id="studentsBody"></tbody>
+        </table>
+    </div>
+    <script>
+        async function load() {
+            const res = await fetch('/api/my-subgroup');
+            const data = await res.json();
+            if (!data.success) {
+                alert('Ошибка загрузки. Войдите заново.');
+                window.location.href = '/student-group-login';
+                return;
+            }
+            document.getElementById('subtitle').textContent = 'Подгруппа ' + data.subgroup + ' (' + data.students.length + ' студентов)';
+            document.getElementById('myInfo').innerHTML = `
+                <div class="info-item"><strong>Вы вошли как</strong><span>${data.me.full_name}</span></div>
+                <div class="info-item"><strong>Логин</strong><span>${data.me.login}</span></div>
+                <div class="info-item"><strong>Подгруппа</strong><span>${data.me.subgroup}</span></div>
+            `;
+            document.getElementById('studentsBody').innerHTML = data.students.map(s => {
+                const isMe = s.id === data.me.id;
+                return `
+                    <tr${isMe ? ' style="background:rgba(16,185,129,0.1);"' : ''}>
+                        <td>${s.full_name}${isMe ? ' <span class="badge me-badge">Это вы</span>' : ''}</td>
+                        <td><span class="badge">${s.subgroup}</span></td>
+                        <td>${s.email || '—'}</td>
+                        <td>${s.phone || '—'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        load();
+    </script>
+</body>
+</html>

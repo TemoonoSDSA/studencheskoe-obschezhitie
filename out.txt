@@ -1,0 +1,14 @@
+[dotenv@17.3.1] injecting env (4) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Сервер запущен: http://localhost:3001
+Доступен по локальной сети: http://<ваш-ip>:3001
+[0mGET /api/duty-schedule [32m200[0m 3.619 ms - 16532[0m
+[0mGET /api/subbotniks [32m200[0m 1.062 ms - 2024[0m
+[0mGET /api/gym-schedule [32m200[0m 0.999 ms - 8391[0m
+[0mPOST /login-auth [33m400[0m 7.185 ms - 64[0m
+[0mPOST /login-auth [32m200[0m 1.089 ms - 31[0m
+[0mGET /api/admin/requests [33m401[0m 0.576 ms - 39[0m
+[0mGET /api/user-info [32m200[0m 0.581 ms - 39[0m
+[0mPOST /login-auth [33m400[0m 0.405 ms - 64[0m
+[0mGET /api/laundry-slots [33m400[0m 0.579 ms - 35[0m
+[0mPOST /login-auth [32m200[0m 0.699 ms - 31[0m
+[0mGET /api/admin/requests [33m401[0m 0.494 ms - 39[0m

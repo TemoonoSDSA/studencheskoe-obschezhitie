@@ -1,0 +1,29 @@
+# Зависимости
+node_modules/
+
+# Базы данных
+*.db
+*.sqlite
+
+# Загруженные файлы
+uploads/
+.uploads/
+
+# Логи
+*.log
+logs/
+
+# Переменные окружения
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Временные файлы
+*.tmp
+*.temp

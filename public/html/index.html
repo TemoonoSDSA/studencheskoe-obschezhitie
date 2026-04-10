@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;">
+    <title>Уютный Дом - Студенческий Городок 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="page-enter">
+
+    <div id="toast-container" class="toast-container"></div>
+
+<header>    <h1>Уютный Дом</h1>
+    <p>Ваш идеальный студенческий городок в 2026 году</p>
+</header>
+
+<nav id="mainNav" class="glass">
+    <div class="nav-right">
+        <div class="burger-menu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="#" id="loginBtn" onclick="openLoginModal(event)">Войти</a>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="/">Главная</a>
+        <a href="#about">О нас</a>
+        <a href="#services">Сервисы</a>
+    </div>
+</nav>
+
+<main>
+    <section id="about" class="glass">
+        <div class="section-title">
+            <h2>Добро пожаловать!</h2>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-muted);">«Уютный Дом» — современный студенческий городок с двумя корпусами, умными технологиями и всем необходимым для комфортной жизни и учёбы.</p>
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="/about" style="display: inline-block; padding: 14px 35px; background: linear-gradient(135deg, var(--primary), #4f46e5); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; transition: all 0.3s;">
+                Узнать больше о нас <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="services" class="glass">
+        <div class="section-title">
+            <h2>Услуги и сервисы</h2>
+            <p style="opacity: 0.8; margin-top: 10px;">Всё для комфортной жизни студента</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+            
+            <div class="service-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05)); border-radius: 20px; padding: 30px; border: 1px solid rgba(99, 102, 241, 0.4); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: var(--primary); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-wifi fa-2x" style="color: white;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--text-bright); font-size: 1.2rem;">Высокоскоростной интернет</h3>
+                        <span style="background: #10b981; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;">6G Wi-Fi</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.7;">Бесплатный высокоскоростной интернет 6G в каждой комнате. Скорость до 10 Гбит/с. Роутеры Mesh-системы для стабильного покрытия.</p>
+                <ul style="color: var(--text-muted); margin-top: 15px; padding-left: 20px;">
+                    <li>Безлимитный трафик</li>
+                    <li>Низкий пинг для игр</li>
+                    <li>Техподдержка 24/7</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border-radius: 20px; padding: 30px; border: 1px solid rgba(245, 158, 11, 0.4); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #f59e0b; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-shower fa-2x" style="color: white;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--text-bright); font-size: 1.2rem;">Smart Прачечная</h3>
+                        <span style="background: #6366f1; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;">Автоматизация</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.7;">Бронируйте стиральные машины через приложение. Отслеживайте статус в реальном времени. Уведомление о готовности.</p>
+                <ul style="color: var(--text-muted); margin-top: 15px; padding-left: 20px;">
+                    <li>6 промышленных машин</li>
+                    <li>Сушка и глажка</li>
+                    <li>Оплата через приложение</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border-radius: 20px; padding: 30px; border: 1px solid rgba(16, 185, 129, 0.4); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #10b981; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-dumbbell fa-2x" style="color: white;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--text-bright); font-size: 1.2rem;">Фитнес-центр</h3>
+                        <span style="background: #ef4444; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;">VR Arena</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.7;">Современные тренажеры с VR-интерфейсом. Персональные программы тренировок с ИИ. Занятия 24/7.</p>
+                <ul style="color: var(--text-muted); margin-top: 15px; padding-left: 20px;">
+                    <li>VR-тренажеры</li>
+                    <li>Йога иstretching</li>
+                    <li>Персональные тренеры</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)); border-radius: 20px; padding: 30px; border: 1px solid rgba(139, 92, 246, 0.4); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #8b5cf6; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-robot fa-2x" style="color: white;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--text-bright); font-size: 1.2rem;">AI Коворкинг</h3>
+                        <span style="background: #10b981; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;">ChatGPT</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.7;">Умные зоны для учёбы с голосовым ассистентом. Автоматическое освещение и климат-контроль. Печать и сканирование.</p>
+                <ul style="color: var(--text-muted); margin-top: 15px; padding-left: 20px;">
+                    <li>Голосовой ИИ-помощник</li>
+                    <li>Комнаты для групповых проектов</li>
+                    <li>3D-принтеры</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05)); border-radius: 20px; padding: 30px; border: 1px solid rgba(239, 68, 68, 0.4); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #ef4444; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-utensils fa-2x" style="color: white;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--text-bright); font-size: 1.2rem;">Smart Столовая</h3>
+                        <span style="background: #f59e0b; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;">IoT</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.7;">Полностью автоматизированная столовая. Заказ через приложение. Диетическое и вегетарианское меню. Доставка в комнату.</p>
+                <ul style="color: var(--text-muted); margin-top: 15px; padding-left: 20px;">
+                    <li>Завтрак, обед, ужин</li>
+                    <li>Анализ питания</li>
+                    <li>Скидки для жильцов</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(14, 165, 233, 0.05)); border-radius: 20px; padding: 30px; border: 1px solid rgba(14, 165, 233, 0.4); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #0ea5e9; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-headset fa-2x" style="color: white;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--text-bright); font-size: 1.2rem;">Техподдержка 24/7</h3>
+                        <span style="background: #ef4444; color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem;">Онлайн</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.7;">Мгновенная помощь через приложение. Служба поддержки решает любые вопросы: от Wi-Fi до сломанной техники.</p>
+                <ul style="color: var(--text-muted); margin-top: 15px; padding-left: 20px;">
+                    <li>Чат в приложении</li>
+                    <li>Вызов мастера</li>
+                    <li>Среднее время ответа: 5 мин</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<!-- Модальное окно входа -->
+<div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content glass" role="document">
+    <span class="close" id="closeModal" onclick="closeModal()">&times;</span>
+    
+    <h2 style="margin-bottom: 20px;">Вход</h2>
+
+    <!-- Форма Входа -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <label>Логин:</label>
+      <input type="text" id="login_student_id" placeholder="Ваш логин" minlength="3" maxlength="32" required>
+      <label>Пароль:</label>
+      <input type="password" id="login_password" minlength="6" required>
+      <button type="submit">Войти в систему</button>
+      <p id="login_error" style="color: var(--danger); font-size: 0.8rem; margin-top: 10px;"></p>
+    </form>
+  </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 «Уютный Дом» — Студенческий Городок Будущего. Все права защищены.</p>
+    <a href="/admin/users" style="opacity: 0.3; color: inherit; text-decoration: none; font-size: 12px;">Панель управления</a>
+</footer>
+
+<script>
+  const modal = document.getElementById('loginModal');
+  const loginBtn = document.getElementById('loginBtn');
+
+  function navigateWithTransition(url) {
+    document.body.classList.add('page-leave');
+    setTimeout(() => { window.location.href = url; }, 220);
+  }
+
+  function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-theme');
+  } else {
+    document.body.classList.remove('light-theme');
+  }
+
+  function togglePass(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    const student_id = document.getElementById('login_student_id').value.trim();
+    const password = document.getElementById('login_password').value;
+    const errorEl = document.getElementById('login_error');
+    
+    errorEl.innerText = '';
+    
+    if (student_id.length < 3) {
+      errorEl.innerText = 'Логин должен содержать минимум 3 символа';
+      return;
+    }
+    if (password.length < 6) {
+      errorEl.innerText = 'Пароль должен содержать минимум 6 символов';
+      return;
+    }
+
+    const res = await fetch('/login-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id, password })
+    });
+    const data = await res.json();
+    if (data.success) {
+        if (data.isAdmin) navigateWithTransition('/admin/users');
+        else navigateWithTransition('/dashboard');
+    }
+    else {
+      errorEl.innerText = data.error || 'Ошибка входа';
+    }
+  }
+
+  async function resetPassword() {
+    const login = document.getElementById('login_student_id').value.trim();
+    const resultEl = document.getElementById('reset_result');
+    
+    if (!login || login.length < 3) {
+      resultEl.innerHTML = '<span style="color:#ef4444;">Введите логин</span>';
+      return;
+    }
+    
+    resultEl.innerHTML = '<span style="color:var(--text-muted);">Сброс...</span>';
+    
+    try {
+      const res = await fetch('/api/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login })
+      });
+      const data = await res.json();
+      
+      if (data.success && data.newPassword) {
+        resultEl.innerHTML = `
+          <span style="color:#10b981;">Пароль сброшен!</span><br>
+          <span style="color:var(--text-bright); font-family:monospace; font-size:1.1rem;">${data.newPassword}</span>
+        `;
+      } else {
+        resultEl.innerHTML = '<span style="color:#ef4444;">' + (data.error || 'Логин не найден') + '</span>';
+      }
+    } catch(err) {
+      resultEl.innerHTML = '<span style="color:#ef4444;">Ошибка</span>';
+    }
+  }
+
+  function toggleMenu() {
+    const navLinks = document.querySelector(".nav-links");
+    const burger = document.querySelector(".burger-menu");
+    navLinks.classList.toggle("open");
+    burger.classList.toggle("active");
+  }
+
+  document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+      document.querySelector(".nav-links").classList.remove("open");
+      document.querySelector(".burger-menu").classList.remove("active");
+    });
+  });
+
+  function openLoginModal(e) {
+    if (e) e.preventDefault();
+    if (loginBtn.innerText === 'Личный кабинет') {
+      navigateWithTransition('/dashboard');
+    } else {
+      document.body.classList.add('modal-open');
+      modal.classList.add('open');
+      modal.classList.remove('closing');
+      modal.setAttribute('aria-hidden', 'false');
+      setTimeout(() => {
+        const el = document.getElementById('login_student_id');
+        if (el) el.focus();
+      }, 50);
+    }
+  }
+
+  function closeModal() {
+    if (!modal.classList.contains('open')) return;
+    modal.classList.add('closing');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    setTimeout(() => {
+      modal.classList.remove('open');
+      modal.classList.remove('closing');
+    }, 260);
+  }
+
+  fetch('/api/user-info')
+    .then(res => res.json())
+    .then(data => {
+      if (data && !data.error) {
+        loginBtn.innerText = 'Личный кабинет';
+      }
+    });
+
+  window.onclick = (event) => { 
+    if (event.target == modal) closeModal(); 
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(() => {
+      document.body.classList.add('page-ready');
+    });
+  });
+
+  function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for (var i = 0; i < reveals.length; i++) {
+      var windowHeight = window.innerHeight;
+      var elementTop = reveals[i].getBoundingClientRect().top;
+      var elementVisible = 150;
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+      }
+    }
+  }
+  window.addEventListener("scroll", reveal);
+</script>
+
+</body>
+</html>

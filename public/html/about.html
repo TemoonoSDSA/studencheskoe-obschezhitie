@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас — Уютный Дом</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        :root {
+            --primary: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #0a0e1a;
+            --text-main: #e2e8f0;
+            --text-bright: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(129, 140, 248, 0.15);
+            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.15) 0%, transparent 30%);
+            animation: heroRotate 30s linear infinite;
+        }
+
+        @keyframes heroRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #6366f1, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 35px;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Floating elements */
+        .floating {
+            position: absolute;
+            border-radius: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-1 {
+            top: 15%;
+            left: 10%;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+            backdrop-filter: blur(10px);
+            animation-delay: 0s;
+        }
+
+        .floating-2 {
+            top: 20%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(239, 68, 68, 0.3));
+            backdrop-filter: blur(10px);
+            animation-delay: 1s;
+        }
+
+        .floating-3 {
+            bottom: 20%;
+            left: 15%;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(6, 182, 212, 0.3));
+            backdrop-filter: blur(10px);
+            animation-delay: 2s;
+        }
+
+        .floating-4 {
+            bottom: 15%;
+            right: 10%;
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(99, 102, 241, 0.3));
+            backdrop-filter: blur(10px);
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .stat-item:nth-child(1) .stat-icon { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .stat-item:nth-child(2) .stat-icon { background: linear-gradient(135deg, #10b981, #059669); }
+        .stat-item:nth-child(3) .stat-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .stat-item:nth-child(4) .stat-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 500px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Buildings Section */
+        .buildings-section {
+            padding: 100px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .building-card {
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            height: 400px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.02em;
+        }
+
+        .building-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        .building-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .building-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s;
+        }
+
+        .building-card:hover .building-bg {
+            transform: scale(1.1);
+        }
+
+        .building-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            z-index: 2;
+            color: white;
+        }
+
+        .building-number {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .building-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .building-content p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .building-features {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .building-feature {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .building-feature i {
+            color: var(--accent);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: var(--bg);
+            padding: 100px 20px;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            padding: 40px 30px;
+            border-radius: 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+
+        .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05)); color: #6366f1; }
+        .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05)); color: #10b981; }
+        .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05)); color: #f59e0b; }
+        .feature-card:nth-child(4) .feature-icon { background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05)); color: #ef4444; }
+        .feature-card:nth-child(5) .feature-icon { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); color: #8b5cf6; }
+        .feature-card:nth-child(6) .feature-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05)); color: #06b6d4; }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 1000px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .features-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+        }
+
+        .team-section::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -150px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+        }
+
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 25px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover .team-photo {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .team-card h4 {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .team-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .team-role {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 500px) {
+            .team-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 20px;
+            background: var(--bg);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .contact-card {
+            background: var(--glass-bg);
+            padding: 40px 25px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: var(--card-shadow);
+            letter-spacing: 0.02em;
+            border: 1px solid var(--glass-border);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .contact-card:nth-child(1) .contact-icon { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .contact-card:nth-child(2) .contact-icon { background: linear-gradient(135deg, #10b981, #059669); }
+        .contact-card:nth-child(3) .contact-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .contact-card:nth-child(4) .contact-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+        .contact-card h4 {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .contact-card a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-card a:hover {
+            color: var(--secondary);
+        }
+
+        a.contact-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+            border: 2px dashed #6366f1;
+            position: relative;
+        }
+
+        a.contact-card-link:hover {
+            color: inherit;
+            border-style: solid;
+        }
+
+        .map-link-hint {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 0.85rem;
+            color: #6366f1;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        a.contact-card-link:hover .map-link-hint {
+            color: #8b5cf6;
+        }
+
+        #dormPhotoModal.active {
+            display: block !important;
+        }
+
+        @media (max-width: 900px) {
+            .contact-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 500px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            padding: 30px 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modal */
+        #loginModal.modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        #loginModal.modal.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <a href="/" style="color: white; font-size: 1.3rem; font-weight: 700; text-decoration: none;">
+                <i class="fas fa-home" style="color: #6366f1;"></i> Уютный Дом
+            </a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <a href="/" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.3s;">Главная</a>
+            <a href="#about" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.3s;">О нас</a>
+            <a href="#features" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.3s;">Сервисы</a>
+            <button type="button" id="loginBtn" style="padding: 10px 25px; background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: transform 0.3s; cursor: pointer; border: none;">Войти</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="padding-top: 80px;">
+        <div class="floating floating-1"></div>
+        <div class="floating floating-2"></div>
+        <div class="floating floating-3"></div>
+        <div class="floating floating-4"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Работаем 24/7
+            </div>
+            <h1>Добро пожаловать в<br><span>«Уютный Дом»</span></h1>
+            <p>Современный студенческий городок в Барнауле. Комфорт, технологии и дружная атмосфера для успешной учёбы и яркой студенческой жизни.</p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn-primary">
+                    <i class="fas fa-info-circle"></i>
+                    Узнать больше
+                </a>
+                <a href="#features" class="btn-secondary">
+                    <i class="fas fa-arrow-down"></i>
+                    Наши сервисы
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" id="about">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Студентов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-door-open"></i>
+                </div>
+                <div class="stat-number">200</div>
+                <div class="stat-label">Комнат</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="stat-number">2</div>
+                <div class="stat-label">Корпуса</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Сотрудников</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Buildings Section -->
+    <section class="buildings-section">
+        <div class="section-header">
+            <h2>Наши корпуса</h2>
+            <p>Современные жилые комплексы с полным оснащением для комфортного проживания</p>
+        </div>
+        
+        <div class="buildings-grid">
+            <a href="/building/1" class="building-card" style="text-decoration: none; color: inherit; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 60px rgba(99,102,241,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                <div class="building-bg" style="background: url('/room/1.jpg') center/cover no-repeat;"></div>
+                <div class="building-content">
+                    <span class="building-number">Корпус №1</span>
+                    <h3>Центральный корпус</h3>
+                    <p>100 комнат на 500 студентов. Современная мебель, smart-системы управления.</p>
+                    <div class="building-features">
+                        <span class="building-feature"><i class="fas fa-wifi"></i> Wi-Fi 6G</span>
+                        <span class="building-feature"><i class="fas fa-snowflake"></i> Кондиционер</span>
+                        <span class="building-feature"><i class="fas fa-shower"></i> Душ в номере</span>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--primary); font-weight: 600;">
+                        Подробнее <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/building/2" class="building-card" style="text-decoration: none; color: inherit; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 60px rgba(16,185,129,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                <div class="building-bg" style="background: url('/room/2.jpg') center/cover no-repeat;"></div>
+                <div class="building-content">
+                    <span class="building-number">Корпус №2</span>
+                    <h3>Северный корпус</h3>
+                    <p>Новый корпус с видом на парк. Тихие зоны для учёбы и отдыха.</p>
+                    <div class="building-features">
+                        <span class="building-feature"><i class="fas fa-tree"></i> Парк</span>
+                        <span class="building-feature"><i class="fas fa-book"></i> Читальный зал</span>
+                        <span class="building-feature"><i class="fas fa-dumbbell"></i> Спортзал</span>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--success); font-weight: 600;">
+                        Подробнее <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/building/3" class="building-card" style="text-decoration: none; color: inherit; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 60px rgba(245,158,11,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                <div class="building-bg" style="background: url('/room/3.jpg') center/cover no-repeat;"></div>
+                <div class="building-content">
+                    <span class="building-number">Инфраструктура</span>
+                    <h3>Smart Столовая</h3>
+                    <p>3 зала на 200 мест. Автоматизированное меню, диетическое питание.</p>
+                    <div class="building-features">
+                        <span class="building-feature"><i class="fas fa-utensils"></i> 3 зала</span>
+                        <span class="building-feature"><i class="fas fa-leaf"></i> Диетическое меню</span>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--accent); font-weight: 600;">
+                        Подробнее <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/building/4" class="building-card" style="text-decoration: none; color: inherit; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 60px rgba(239,68,68,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                <div class="building-bg" style="background: url('/room/4.jpg') center/cover no-repeat;"></div>
+                <div class="building-content">
+                    <span class="building-number">Спорт</span>
+                    <h3>Спортзал</h3>
+                    <p>Современный тренажёрный зал с профессиональным оборудованием и зоной кардио.</p>
+                    <div class="building-features">
+                        <span class="building-feature"><i class="fas fa-dumbbell"></i> Тренажёры</span>
+                        <span class="building-feature"><i class="fas fa-heartbeat"></i> Кардио-зона</span>
+                        <span class="building-feature"><i class="fas fa-users"></i> Групповые занятия</span>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 0.85rem; color: var(--danger); font-weight: 600;">
+                        Подробнее <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2>Почему выбирают нас</h2>
+                <p>Всё необходимое для комфортной жизни студента</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Безопасность 24/7</h3>
+                    <p>Круглосуточная охрана, видеонаблюдение и электронные замки. Ваша безопасность — наш приоритет.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>Интернет 6G</h3>
+                    <p>Бесплатный высокоскоростной интернет до 10 Гбит/с. Mesh-система для стабильного покрытия.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Дружное сообщество</h3>
+                    <p>Регулярные мероприятия, студенческие клубы и совместные проекты. Найдите новых друзей!</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Комфорт и уют</h3>
+                    <p>Современная мебель, чистота и уютные зоны отдыха. Дом, где хочется жить.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Сервис 24/7</h3>
+                    <p>Техподдержка, охрана и все сервисы работают круглосуточно без выходных.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Зелёная территория</h3>
+                    <p>Ухоженный парк, зоны отдыха и спортивные площадки на территории кампуса.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="team-container">
+            <div class="section-header">
+                <h2 style="color: white;">Наша команда</h2>
+                <p style="color: rgba(255,255,255,0.7);">Профессионалы, которые заботятся о вашем комфорте</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="/Images/3.jpg" alt="Янерт Артем" class="team-photo">
+                    <h4>Янерт Артем</h4>
+                    <p>Руководитель</p>
+                    <span class="team-role">Директор</span>
+                </div>
+                
+                <div class="team-card">
+                    <img src="/Images/2.jpg" alt="Пискарев Степан" class="team-photo">
+                    <h4>Пискарев Степан</h4>
+                    <p>Главный администратор</p>
+                    <span class="team-role">Администратор</span>
+                </div>
+                
+                <div class="team-card">
+                    <img src="/Images/4.jpg" alt="Букин Артем" class="team-photo">
+                    <h4>Букин Артем</h4>
+                    <p>Техническая служба</p>
+                    <span class="team-role">Инженер</span>
+                </div>
+                
+                <div class="team-card">
+                    <img src="/Images/1.jpg" alt="Торчуткин Артемий" class="team-photo">
+                    <h4>Торчуткин Артемий</h4>
+                    <p>Служба охраны</p>
+                    <span class="team-role">Охранник</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="section-header">
+                <h2>Контакты</h2>
+                <p>Свяжитесь с нами любым удобным способом</p>
+            </div>
+            
+            <div class="contact-grid">
+                <a href="javascript:void(0)" class="contact-card contact-card-link" onclick="document.getElementById('dormPhotoModal').classList.add('active')">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>Адрес</h4>
+                    <p>г. Барнаул<br>ул. Юрина, 186</p>
+                    <span class="map-link-hint"><i class="fas fa-image"></i> Посмотреть фото</span>
+                </a>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h4>Телефон</h4>
+                    <p><a href="tel:89963033281">8 (996) 303-32-81</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>Email</h4>
+                    <p><a href="mailto:artemanert@gmail.com">artemanert@gmail.com</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Режим работы</h4>
+                    <p>Круглосуточно<br>Без выходных</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Готовы стать частью «Уютного Дома»?</h2>
+            <p>Присоединяйтесь к нашему студенческому городку и ощутите настоящий комфорт</p>
+            <a href="/" class="btn-primary">
+                <i class="fas fa-home"></i>
+                Вернуться на главную
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 «Уютный Дом» — Студенческий Городок. Все права защищены.</p>
+    </footer>
+
+    <!-- Модальное окно входа -->
+    <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-content" style="background: var(--glass-bg); padding: 40px; border-radius: 20px; max-width: 400px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 1px solid var(--glass-border);">
+        <span class="close" id="closeModalBtn" style="position: absolute; right: 20px; top: 20px; font-size: 28px; cursor: pointer; color: var(--text-muted);">&times;</span>
+        
+        <h2 style="margin-bottom: 20px; color: var(--text-bright); text-align: center;">Вход</h2>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem;">Логин:</label>
+          <input type="text" id="login_student_id" placeholder="Ваш логин" style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 15px; font-size: 1rem; background: var(--glass-bg); color: var(--text-main);" minlength="3" maxlength="32" required>
+          <label style="display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem;">Пароль:</label>
+          <input type="password" id="login_password" style="width: 100%; padding: 12px; border: 1px solid var(--glass-border); border-radius: 10px; margin-bottom: 20px; font-size: 1rem; background: var(--glass-bg); color: var(--text-main);" minlength="6" required>
+          <button type="submit" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer;">Войти в систему</button>
+          <p id="login_error" style="color: #ef4444; font-size: 0.8rem; margin-top: 10px; text-align: center;"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Модальное окно фото общежития -->
+    <div id="dormPhotoModal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); cursor:pointer;" onclick="this.classList.remove('active')">
+        <div style="position:absolute; bottom:0; left:0; right:0; display:flex; flex-direction:column; align-items:center; padding:20px 20px 30px; box-sizing:border-box;" onclick="event.stopPropagation()">
+            <span style="position:absolute; top:12px; right:28px; font-size:36px; color:white; cursor:pointer;" onclick="document.getElementById('dormPhotoModal').classList.remove('active')">&times;</span>
+            <h3 style="color:white; margin-bottom:16px; font-size:1.3rem;">г. Барнаул, ул. Юрина, 186</h3>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center;">
+                <img src="/room/1.jpg" alt="Корпус 1" style="max-height:60vh; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+                <img src="/room/2.jpg" alt="Корпус 2" style="max-height:60vh; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('loginModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.add('open');
+                document.body.classList.add('modal-open');
+            });
+        }
+
+        function navigateWithTransition(url) {
+            window.location.href = url;
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const student_id = document.getElementById('login_student_id').value.trim();
+            const password = document.getElementById('login_password').value;
+            const errorEl = document.getElementById('login_error');
+            
+            errorEl.innerText = '';
+            
+            if (student_id.length < 3) {
+              errorEl.innerText = 'Логин должен содержать минимум 3 символа';
+              return;
+            }
+            if (password.length < 6) {
+              errorEl.innerText = 'Пароль должен содержать минимум 6 символов';
+              return;
+            }
+
+            const res = await fetch('/login-auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ student_id, password })
+            });
+            const data = await res.json();
+            if (data.success) {
+                if (data.isAdmin) navigateWithTransition('/admin/users');
+                else navigateWithTransition('/dashboard');
+            }
+            else {
+              errorEl.innerText = data.error || 'Ошибка входа';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.classList.remove('modal-open');
+        }
+
+        fetch('/api/user-info')
+            .then(res => res.json())
+            .then(data => {
+              if (data && !data.error && loginBtn) {
+                loginBtn.innerText = 'Личный кабинет';
+              }
+            });
+
+        window.onclick = function(event) { 
+            if (event.target == modal) closeModal(); 
+        };
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(function(anchor) {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

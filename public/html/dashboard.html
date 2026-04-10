@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — Уютный Дом</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <h1><i class="fas fa-user-circle"></i> Личный кабинет</h1>
+    <p id="student_name_header">Студенческий городок «Уютный Дом»</p>
+</header>
+
+<nav id="mainNav" class="glass">
+    <div class="nav-right">
+        <div class="burger-menu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="/"><i class="fas fa-home"></i> Главная</a>
+    </div>
+</nav>
+
+<main>
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Профиль -->
+    <section class="glass reveal">
+        <div style="display: flex; align-items: center; gap: 25px; flex-wrap: wrap;">
+            <div class="avatar-container" style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #9333ea); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; box-shadow: var(--card-shadow);">
+                <i class="fas fa-user-astronaut"></i>
+            </div>
+            <div>
+                <h1 style="font-size: 2.2rem; margin: 0; background: linear-gradient(to right, var(--primary), #9333ea); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Добро пожаловать!
+                </h1>
+                <p style="opacity: 0.7; font-size: 1.1rem;"><span class="pulse"></span> <span id="student_name_title">Загрузка...</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Информационные карточки -->
+    <div class="info-grid reveal">
+        <div class="info-card glass">
+            <h3><i class="fas fa-user"></i> ФИО</h3>
+            <p id="student_name">—</p>
+        </div>
+        <div class="info-card glass">
+            <h3><i class="fas fa-users"></i> Группа</h3>
+            <p id="group_number">—</p>
+        </div>
+        <div class="info-card glass">
+            <h3><i class="fas fa-building"></i> Корпус</h3>
+            <p id="dormitory">—</p>
+        </div>
+        <div class="info-card glass">
+            <h3><i class="fas fa-door-open"></i> Комната</h3>
+            <p id="room" style="color: var(--accent);">—</p>
+        </div>
+    </div>
+
+    <!-- Расписание -->
+    <section class="glass reveal" style="padding: 30px;">
+        <div class="section-title">
+            <h2><i class="fas fa-calendar-alt"></i> Расписание на неделю</h2>
+        </div>
+        <p id="schedule-title" style="margin-top: -6px; margin-bottom: 14px; color: #64748b;">Группа: ...</p>
+        <div id="schedule-container" class="schedule-container">
+            <div style="color: #94a3b8;">Загрузка расписания…</div>
+        </div>
+    </section>
+
+    <!-- Форма заявки -->
+    <section class="glass reveal">
+        <div class="section-title">
+            <h2><i class="fas fa-tools"></i> Служба поддержки</h2>
+        </div>
+        <form id="requestForm">
+            <div>
+                <label style="font-size: 0.85rem; font-weight: 600; color: #94a3b8;">Категория</label>
+                <select id="req_type" required style="width: 100%;">
+                    <option value="Сантехника">Сантехника</option>
+                    <option value="Электрика">Электрика</option>
+                    <option value="Мебель">Мебель</option>
+                    <option value="Пропуск">Пропуск</option>
+                    <option value="Уборка">Уборка</option>
+                    <option value="Другое">Другое</option>
+                </select>
+            </div>
+            <label style="font-size: 0.85rem; font-weight: 600; color: #94a3b8; margin-top: 15px; display: block;">Описание проблемы</label>
+            <textarea id="req_message" required style="height: 100px;" placeholder="Опишите ситуацию... (минимум 10 символов)"></textarea>
+            <div id="req-error" style="color: #ef4444; font-size: 0.85rem; margin-top: 6px; display: none;"></div>
+            <button type="submit" style="width: auto; padding: 15px 40px;"><i class="fas fa-paper-plane"></i> Отправить заявку</button>
+        </form>
+    </section>
+
+    <!-- Мои заявки -->
+    <section class="glass reveal">
+        <div class="section-title">
+            <h2><i class="fas fa-history"></i> Мои заявки</h2>
+        </div>
+        <div id="requests-container" style="color: #64748b;">Загрузка...</div>
+    </section>
+
+    <!-- График уборки душевых -->
+    <section class="glass reveal" style="padding: 30px;">
+        <div class="section-title">
+            <h2><i class="fas fa-spray-can"></i> График приема и уборки душа</h2>
+        </div>
+        <div id="shower-container" style="color: #64748b;">Загрузка...</div>
+    </section>
+
+    <!-- Запись на стирку -->
+    <section class="glass reveal" style="padding: 30px;">
+        <div class="section-title">
+            <h2><i class="fas fa-tshirt"></i> Запись на стирку</h2>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+            <input type="date" id="laundry-date" style="padding: 10px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: inherit;">
+            <button onclick="loadLaundrySlots()" style="padding: 10px 20px; background: linear-gradient(135deg, var(--primary), #9333ea); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">Показать слоты</button>
+        </div>
+        <div id="laundry-slots-container" style="color: #64748b;"></div>
+        <div style="margin-top: 20px;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 10px;"><i class="fas fa-list"></i> Мои записи</h3>
+            <div id="my-laundry-container" style="color: #64748b;">Загрузка...</div>
+        </div>
+    </section>
+
+    <!-- Расписание спортзала -->
+    <section class="glass reveal" style="padding: 30px;">
+        <div class="section-title">
+            <h2><i class="fas fa-dumbbell"></i> Расписание спортзала</h2>
+        </div>
+        <div id="gym-container" style="color: #64748b;">Загрузка...</div>
+    </section>
+
+    <!-- График дежурств и уборки -->
+    <section class="glass reveal" style="padding: 30px;">
+        <div class="section-title">
+            <h2><i class="fas fa-broom"></i> График дежурств и уборки</h2>
+        </div>
+        <div id="duty-container" style="color: #64748b;">Загрузка...</div>
+    </section>
+
+    <!-- Субботники -->
+    <section class="glass reveal" style="padding: 30px;">
+        <div class="section-title">
+            <h2><i class="fas fa-leaf"></i> Расписание субботников</h2>
+        </div>
+        <div id="subbotnik-container" style="color: #64748b;">Загрузка...</div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 «Уютный Дом» — Студенческий Городок. Все права защищены.</p>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navLinks = document.querySelector(".nav-links");
+        const burger = document.querySelector(".burger-menu");
+        navLinks.classList.toggle("open");
+        burger.classList.toggle("active");
+    }
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+        link.addEventListener("click", () => {
+            document.querySelector(".nav-links").classList.remove("open");
+            document.querySelector(".burger-menu").classList.remove("active");
+        });
+    });
+
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast ' + type;
+        toast.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i><span>' + message + '</span>';
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-theme');
+    } else {
+        document.body.classList.remove('light-theme');
+    }
+
+    function navigateWithTransition(url) {
+        document.body.classList.add('page-leave');
+        setTimeout(() => { window.location.href = url; }, 220);
+    }
+
+    document.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('http')) return;
+        e.preventDefault();
+        navigateWithTransition(href);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        requestAnimationFrame(() => { document.body.classList.add('page-ready'); });
+    });
+
+    function reveal() {
+        const reveals = document.querySelectorAll(".reveal");
+        for (let i = 0; i < reveals.length; i++) {
+            const windowHeight = window.innerHeight;
+            const elementTop = reveals[i].getBoundingClientRect().top;
+            if (elementTop < windowHeight - 150) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    window.addEventListener("load", reveal);
+
+    function escapeHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ===== Расписание =====
+    const SCHEDULE = {
+        '101': { name: '101 — Информационные системы', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Введение в ИС', 'Алгоритмы и структуры', 'Базы данных', 'Проектирование ИС', 'Итоговая консультация'], ['Архитектура ИС', 'Операционные системы', 'Менеджмент ИС', 'Защита информации', 'Практика по SQL'], ['Моделирование бизнес-процессов', 'Электронный документооборот', 'Информационная безопасность', 'Облачные технологии', 'Итоговая аттестация']] },
+        '102': { name: '102 — Прикладная информатика', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Основы программирования', 'Веб-разработка', 'Мобильные приложения', 'Информационные системы', 'Итоговая консультация'], ['Базы данных', 'Виртуализация', 'Проектирование интерфейсов', 'Работа с API', 'Практика по JavaScript'], ['Тестирование ПО', 'Работа с графикой', 'Моделирование данных', 'Итоговая контрольная', 'Итоговая защита проекта']] },
+        '103': { name: '103 — Сетевое администрирование', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Основы сетевых технологий', 'Администрирование сетей', 'Защита сетей', 'Практика по Cisco', 'Итоговая лабораторная'], ['Маршрутизация и коммутация', 'VPN технологии', 'Обеспечение безопасности', 'Настройка серверов', 'Итоговая аттестация'], ['Мониторинг сетей', 'Работа с оборудованием', 'Облачные сети', 'Итоговая проверка', 'Итоговая защита проекта']] },
+        '104': { name: '104 — Кибербезопасность', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Введение в кибербезопасность', 'Криптография', 'Защита информации', 'Аудит безопасности', 'Итоговая лабораторная'], ['Защита сетей', 'Виды атак и защита', 'Безопасность приложений', 'Практика по PenTest', 'Итоговая аттестация'], ['Правовые основы безопасности', 'Мониторинг угроз', 'Обнаружение вторжений', 'Итоговая защита', 'Итоговая защита проекта']] },
+        '105': { name: '105 — Дизайн и графика', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Основы графического дизайна', 'Цветоведение', 'Работа с Photoshop', 'Веб-дизайн', 'Итоговая презентация'], ['Типографика', 'Иллюстрации', 'Работа с 3D моделями', 'Проектирование логотипов', 'Итоговая защита проекта'], ['Анимация и видео монтаж', 'Создание портфолио', 'Практика по дизайну', 'Итоговая выставка', 'Итоговая защита проекта']] },
+        '106': { name: '106 — Экономика и учет', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Основы экономики', 'Бухгалтерский учет', 'Финансовый менеджмент', 'Налогообложение', 'Итоговая консультация'], ['Анализ финансовых отчетов', 'Аудит', 'Статистика', 'Практика по 1С', 'Итоговая контрольная'], ['Инвестиции и кредитование', 'Бюджетирование', 'Экономический анализ', 'Итоговая защита', 'Итоговая защита проекта']] },
+        '107': { name: '107 — Менеджмент', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Основы менеджмента', 'Стратегический менеджмент', 'Управление проектами', 'Лидерство и мотивация', 'Итоговая презентация'], ['Управление персоналом', 'Маркетинг', 'Производственный менеджмент', 'Управление конфликтами', 'Итоговая защита проекта'], ['Корпоративная культура', 'Управление качеством', 'Бизнес-процессы', 'Итоговая защита', 'Итоговая защита проекта']] },
+        '108': { name: '108 — Юриспруденция', times: ['09:00 - 10:30', '10:45 - 12:15', '13:00 - 14:30'], days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], rows: [['Введение в юриспруденцию', 'Гражданское право', 'Уголовное право', 'Гражданский процесс', 'Итоговая консультация'], ['Трудовое право', 'Административное право', 'Международное право', 'Защита прав человека', 'Итоговая защита'], ['Правовая этика', 'Судебная практика', 'Законодательство', 'Итоговая защита', 'Итоговая защита проекта']] }
+    };
+
+    function renderSchedule(groupNumber) {
+        const title = document.getElementById('schedule-title');
+        const container = document.getElementById('schedule-container');
+        const schedule = SCHEDULE[String(groupNumber || '').trim()];
+        if (!container) return;
+        if (!schedule) {
+            if (title) title.textContent = 'Группа: ' + (groupNumber || '—');
+            container.innerHTML = '<div class="schedule-empty">Расписание для вашей группы пока не добавлено.</div>';
+            return;
+        }
+        if (title) title.textContent = schedule.name;
+        let thead = '<thead><tr><th>Время</th>';
+        schedule.days.forEach(d => { thead += '<th>' + escapeHtml(d) + '</th>'; });
+        thead += '</tr></thead>';
+        let tbody = '<tbody>';
+        schedule.times.forEach((t, i) => {
+            const cols = schedule.rows[i] || [];
+            tbody += '<tr><td class="time">' + escapeHtml(t) + '</td>';
+            cols.forEach(c => { tbody += '<td>' + escapeHtml(c) + '</td>'; });
+            tbody += '</tr>';
+        });
+        tbody += '</tbody>';
+        container.innerHTML = '<div class="schedule-table-wrap"><table class="schedule-table">' + thead + tbody + '</table></div>';
+    }
+
+    const STATUS_LABELS = { open: 'Открыта', in_progress: 'В работе', done: 'Выполнена' };
+    const STATUS_COLORS = { open: '#1565c0', in_progress: '#e65100', done: '#2e7d32' };
+
+    function loadMyRequests() {
+        const container = document.getElementById('requests-container');
+        fetch('/api/my-requests')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success || !data.rows || data.rows.length === 0) {
+                    container.innerHTML = '<div style="opacity: 0.7; text-align: center; padding: 20px;">Заявок пока нет.</div>';
+                    return;
+                }
+                container.innerHTML = data.rows.map(r => {
+                    const statusText = STATUS_LABELS[r.status] || r.status;
+                    const statusColor = STATUS_COLORS[r.status] || '#666';
+                    let replyHtml = '';
+                    if (r.admin_reply) {
+                        replyHtml += '<div style="margin-top: 8px; padding: 10px; background: rgba(16,185,129,0.1); border-radius: 10px; border-left: 3px solid #10b981;"><strong style="color: #10b981;">Ответ администратора:</strong><br>' + escapeHtml(r.admin_reply) + '</div>';
+                    }
+                    if (r.master_datetime) {
+                        replyHtml += '<div style="margin-top: 6px; padding: 8px 12px; background: rgba(99,102,241,0.1); border-radius: 8px; display: inline-block;"><i class="fas fa-calendar-check"></i> <strong>Мастер придет:</strong> ' + escapeHtml(r.master_datetime) + '</div>';
+                    }
+                    const hideBtn = (r.admin_reply || r.master_datetime) ? '<button class="hide-request-btn" data-id="' + r.id + '" style="margin-top: 8px; padding: 6px 14px; background: #64748b; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.8rem;"><i class="fas fa-eye-slash"></i> Прочитано, скрыть</button>' : '';
+                    return '<div class="request-card" id="req-' + r.id + '" style="padding: 14px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); margin-bottom: 10px;">' +
+                        '<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">' +
+                            '<span><strong>' + escapeHtml(r.type) + '</strong> — ' + escapeHtml(r.date) + '</span>' +
+                            '<span style="padding: 3px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; color: white; background: ' + statusColor + ';">' + statusText + '</span>' +
+                        '</div>' +
+                        '<div style="margin-top: 6px; opacity: 0.85;">' + escapeHtml(r.message) + '</div>' +
+                        replyHtml + hideBtn +
+                    '</div>';
+                }).join('');
+
+                document.querySelectorAll('.hide-request-btn').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const id = this.getAttribute('data-id');
+                        this.disabled = true;
+                        await fetch('/api/my-requests/' + id + '/hide', { method: 'POST' });
+                        const card = document.getElementById('req-' + id);
+                        if (card) {
+                            card.style.transition = 'opacity 0.3s, max-height 0.3s';
+                            card.style.opacity = '0';
+                            card.style.maxHeight = '0';
+                            card.style.overflow = 'hidden';
+                            card.style.padding = '0';
+                            card.style.margin = '0';
+                            setTimeout(() => card.remove(), 300);
+                        }
+                    });
+                });
+            })
+            .catch(() => {
+                container.innerHTML = '<div style="opacity: 0.7;">Ошибка загрузки заявок.</div>';
+            });
+    }
+
+    // ===== Инициализация =====
+    fetch('/api/user-info')
+        .then(res => {
+            if (!res.ok) throw new Error('Not authorized');
+            return res.json();
+        })
+        .then(data => {
+            if (data.error) {
+                navigateWithTransition('/');
+            } else {
+                const studentName = data.full_name || data.student_id;
+                document.getElementById('student_name_title').textContent = studentName;
+                document.getElementById('student_name_header').textContent = studentName;
+                document.getElementById('student_name').textContent = studentName;
+                document.getElementById('group_number').textContent = data.group_number || '—';
+                renderSchedule(data.group_number);
+
+                const dormNum = data.room && String(data.room) >= '200' ? '№2 (Северный)' : '№1 (Центральный)';
+                document.getElementById('dormitory').textContent = dormNum;
+                document.getElementById('room').textContent = data.room || '—';
+
+                loadMyRequests();
+                showToast('Добро пожаловать, ' + studentName + '!');
+            }
+        })
+        .catch(() => {
+            navigateWithTransition('/');
+        });
+
+    document.getElementById('requestForm').onsubmit = function(e) {
+        e.preventDefault();
+        const type = document.getElementById('req_type').value;
+        const message = document.getElementById('req_message').value.trim();
+        const errorEl = document.getElementById('req-error');
+        errorEl.style.display = 'none';
+
+        if (message.length < 10) {
+            errorEl.textContent = 'Описание должно содержать не менее 10 символов';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        const lastSubmit = localStorage.getItem('lastRequestTime');
+        if (lastSubmit) {
+            const elapsed = Date.now() - parseInt(lastSubmit);
+            if (elapsed < 15 * 60 * 1000) {
+                const remaining = Math.ceil((15 * 60 * 1000 - elapsed) / 60000);
+                errorEl.textContent = 'Следующую заявку можно подать через ' + remaining + ' мин.';
+                errorEl.style.display = 'block';
+                return;
+            }
+        }
+
+        fetch('/api/send-request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type, message })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast('Заявка успешно отправлена!');
+                document.getElementById('req_message').value = '';
+                localStorage.setItem('lastRequestTime', Date.now().toString());
+                loadMyRequests();
+            } else {
+                showToast('Ошибка при отправке заявки', 'error');
+            }
+        });
+    };
+
+    // ===== График уборки душевых =====
+    function loadShowerSchedule() {
+        const container = document.getElementById('shower-container');
+        const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+        const slots = [
+            { time: '09:00-12:00', type: 'shower', label: 'Душ' },
+            { time: '12:00-14:00', type: 'cleaning', label: 'Уборка' },
+            { time: '14:00-17:00', type: 'shower', label: 'Душ' },
+            { time: '17:00-18:00', type: 'cleaning', label: 'Уборка' },
+            { time: '18:00-21:00', type: 'shower', label: 'Душ' },
+            { time: '21:00-22:00', type: 'cleaning', label: 'Уборка' }
+        ];
+
+        let html = '<div style="overflow-x: auto;"><table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">';
+        html += '<thead><tr style="border-bottom: 2px solid var(--glass-border);">' +
+            '<th style="padding: 10px; text-align: left; color: var(--primary);">Время</th>';
+        days.forEach(d => {
+            html += '<th style="padding: 10px; text-align: center; color: var(--primary);">' + d.substring(0, 3) + '</th>';
+        });
+        html += '</tr></thead><tbody>';
+
+        slots.forEach(slot => {
+            const isShower = slot.type === 'shower';
+            const color = isShower ? '#10b981' : '#ef4444';
+            const icon = isShower ? 'fa-shower' : 'fa-spray-can';
+            html += '<tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">';
+            html += '<td style="padding: 10px; font-weight: 600; color: ' + color + ';">' +
+                '<i class="fas ' + icon + '"></i> ' + escapeHtml(slot.time) +
+            '</td>';
+            days.forEach(() => {
+                html += '<td style="padding: 10px; text-align: center;">' +
+                    '<span style="color: ' + color + '; font-weight: 600;">' + slot.label + '</span>' +
+                '</td>';
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    }
+
+    // ===== Запись на стирку =====
+    let myLaundryDates = {};
+
+    function loadLaundrySlots() {
+        const date = document.getElementById('laundry-date').value;
+        const container = document.getElementById('laundry-slots-container');
+        if (!date) { showToast('Выберите дату', 'error'); return; }
+
+        container.innerHTML = '<div style="opacity: 0.7;">Загрузка слотов...</div>';
+
+        fetch('/api/laundry-bookings')
+            .then(res => res.json())
+            .then(myData => {
+                if (myData.success && myData.rows) {
+                    myLaundryDates = {};
+                    myData.rows.filter(r => r.status === 'active').forEach(r => { myLaundryDates[r.date] = r.id; });
+                }
+            })
+            .catch(() => {})
+            .finally(() => {
+                fetch('/api/laundry-slots?date=' + encodeURIComponent(date))
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.success || !data.slots || data.slots.length === 0) {
+                            container.innerHTML = '<div style="opacity: 0.7; text-align: center; padding: 20px;">Нет доступных слотов.</div>';
+                            return;
+                        }
+                        const hasBookingForDate = myLaundryDates[date];
+                        const grouped = {};
+                        data.slots.forEach(s => {
+                            if (!grouped[s.machine]) grouped[s.machine] = [];
+                            grouped[s.machine].push(s);
+                        });
+                        let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px;">';
+                        Object.keys(grouped).forEach(machine => {
+                            html += '<div style="padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);">' +
+                                '<strong>Машина #' + escapeHtml(machine) + '</strong>';
+                            grouped[machine].forEach(slot => {
+                                if (slot.booked && slot.booked_by === currentUser) {
+                                    html += '<div style="margin-top: 6px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center;">' +
+                                        '<span>' + escapeHtml(slot.time) + '</span>' +
+                                        '<span style="color: #10b981; font-size: 0.75rem;">✓ Ваша запись</span>' +
+                                    '</div>';
+                                } else if (slot.booked) {
+                                    html += '<div style="margin-top: 6px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center;">' +
+                                        '<span>' + escapeHtml(slot.time) + '</span>' +
+                                        '<span style="color: #f59e0b; font-size: 0.75rem;">Занято</span>' +
+                                    '</div>';
+                                } else if (hasBookingForDate) {
+                                    html += '<div style="margin-top: 6px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center;">' +
+                                        '<span>' + escapeHtml(slot.time) + '</span>' +
+                                        '<span style="color: #94a3b8; font-size: 0.75rem; opacity: 0.5;">—</span>' +
+                                    '</div>';
+                                } else {
+                                    html += '<div style="margin-top: 6px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center;">' +
+                                        '<span>' + escapeHtml(slot.time) + '</span>' +
+                                        '<button onclick="bookLaundry(\'' + escapeHtml(date) + '\', \'' + escapeHtml(slot.time) + '\', \'' + escapeHtml(slot.machine) + '\')" style="padding: 2px 8px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">Записаться</button>' +
+                                    '</div>';
+                                }
+                            });
+                            html += '</div>';
+                        });
+                        html += '</div>';
+                        container.innerHTML = html;
+                    })
+                    .catch(() => { container.innerHTML = '<div style="opacity: 0.7;">Ошибка загрузки.</div>'; });
+            });
+    }
+
+    function bookLaundry(date, time, machine) {
+        fetch('/api/laundry-bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date, time_slot: time, machine_number: machine })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) { showToast('Вы записались на стирку!'); loadMyLaundry(); loadLaundrySlots(); }
+            else { showToast(data.error || 'Ошибка', 'error'); }
+        });
+    }
+
+    function loadMyLaundry() {
+        const container = document.getElementById('my-laundry-container');
+        fetch('/api/laundry-bookings')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success || !data.rows || data.rows.length === 0) {
+                    container.innerHTML = '<div style="opacity: 0.7;">У вас нет записей на стирку.</div>';
+                    return;
+                }
+                const active = data.rows.filter(r => r.status === 'active');
+                if (active.length === 0) {
+                    container.innerHTML = '<div style="opacity: 0.7;">У вас нет активных записей.</div>';
+                    return;
+                }
+                container.innerHTML = active.map(r => {
+                    return '<div style="padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">' +
+                        '<div><strong>' + escapeHtml(r.date) + '</strong> | ' + escapeHtml(r.time_slot) + ' | Машина #' + escapeHtml(r.machine_number) + '</div>' +
+                        '<button onclick="cancelLaundry(' + r.id + ')" style="padding: 4px 12px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Отменить</button>' +
+                    '</div>';
+                }).join('');
+            })
+            .catch(() => { container.innerHTML = '<div style="opacity: 0.7;">Ошибка загрузки.</div>'; });
+    }
+
+    function cancelLaundry(id) {
+        fetch('/api/laundry-bookings/' + id, { method: 'DELETE' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) { showToast('Запись отменена'); delete myLaundryDates[Object.keys(myLaundryDates).find(k => myLaundryDates[k] === id)]; loadMyLaundry(); loadLaundrySlots(); }
+                else { showToast(data.error || 'Ошибка', 'error'); }
+            });
+    }
+
+    // ===== График дежурств =====
+    function loadDutySchedule() {
+        const container = document.getElementById('duty-container');
+        fetch('/api/duty-schedule')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success || !data.rows || data.rows.length === 0) {
+                    container.innerHTML = '<div style="opacity: 0.7; text-align: center; padding: 20px;">График дежурств пока не заполнен.</div>';
+                    return;
+                }
+                const myDuties = data.rows.filter(d => d.student_id === currentUser);
+                if (myDuties.length === 0) {
+                    container.innerHTML = '<div style="opacity: 0.7; text-align: center; padding: 20px;">У вас нет назначенных дежурств.</div>';
+                    return;
+                }
+                let html = '<div style="display: grid; gap: 10px;">';
+                myDuties.forEach(d => {
+                    const statusColor = d.status === 'done' ? '#10b981' : (d.status === 'missed' ? '#ef4444' : '#f59e0b');
+                    const statusText = d.status === 'done' ? 'Выполнено' : (d.status === 'missed' ? 'Пропущено' : 'Ожидает');
+                    html += '<div style="padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">' +
+                        '<div>' +
+                            '<strong>Комната ' + escapeHtml(d.room_number) + '</strong><br>' +
+                            '<span style="font-size: 0.85rem; opacity: 0.8;">Дата: ' + escapeHtml(d.duty_date) + '</span>' +
+                        '</div>' +
+                        '<span style="padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; color: white; background: ' + statusColor + ';">' + statusText + '</span>' +
+                    '</div>';
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(() => { container.innerHTML = '<div style="opacity: 0.7;">Ошибка загрузки.</div>'; });
+    }
+
+    // ===== Субботники =====
+    function loadSubbotniks() {
+        const container = document.getElementById('subbotnik-container');
+        fetch('/api/subbotniks')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success || !data.rows || data.rows.length === 0) {
+                    container.innerHTML = '<div style="opacity: 0.7; text-align: center; padding: 20px;">Субботники пока не запланированы.</div>';
+                    return;
+                }
+                let html = '<div style="display: grid; gap: 10px;">';
+                data.rows.forEach(s => {
+                    const statusColor = s.status === 'planned' ? '#6366f1' : (s.status === 'done' ? '#10b981' : '#ef4444');
+                    const statusText = s.status === 'planned' ? 'Запланирован' : (s.status === 'done' ? 'Завершён' : 'Отменён');
+                    html += '<div style="padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);">' +
+                        '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">' +
+                            '<strong style="font-size: 1.1rem;">' + escapeHtml(s.title) + '</strong>' +
+                            '<span style="padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; color: white; background: ' + statusColor + ';">' + statusText + '</span>' +
+                        '</div>' +
+                        (s.description ? '<div style="opacity: 0.8; margin-bottom: 6px;">' + escapeHtml(s.description) + '</div>' : '') +
+                        '<div style="font-size: 0.85rem; opacity: 0.7;">' +
+                            '<i class="fas fa-calendar"></i> ' + escapeHtml(s.event_date) + ' | ' +
+                            '<i class="fas fa-clock"></i> ' + escapeHtml(s.event_time) + ' | ' +
+                            '<i class="fas fa-map-marker-alt"></i> ' + escapeHtml(s.location) +
+                        '</div>' +
+                    '</div>';
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(() => { container.innerHTML = '<div style="opacity: 0.7;">Ошибка загрузки.</div>'; });
+    }
+
+    // ===== Расписание спортзала =====
+    function loadGymSchedule() {
+        const container = document.getElementById('gym-container');
+        const schedule = [
+            { day: 'Понедельник — Пятница', time: '07:00 — 23:00' },
+            { day: 'Суббота', time: '07:00 — 23:00' },
+            { day: 'Воскресенье', time: 'Выходной' }
+        ];
+
+        let html = '<div style="display: grid; gap: 10px;">';
+        schedule.forEach(s => {
+            const isDayOff = s.time === 'Выходной';
+            const color = isDayOff ? '#94a3b8' : '#ef4444';
+            html += '<div style="padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">' +
+                '<strong>' + s.day + '</strong>' +
+                '<span style="color: ' + color + '; font-weight: 600;">' + s.time + '</span>' +
+            '</div>';
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // ===== Инициализация min даты =====
+    document.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toISOString().split('T')[0];
+        const laundryDate = document.getElementById('laundry-date');
+        if (laundryDate) laundryDate.min = today;
+    });
+
+    // ===== Инициализация новых секций =====
+    let currentUser = '';
+    fetch('/api/user-info')
+        .then(res => {
+            if (!res.ok) throw new Error('Not authorized');
+            return res.json();
+        })
+        .then(data => {
+            if (data.error) {
+                navigateWithTransition('/');
+            } else {
+                const studentName = data.full_name || data.student_id;
+                currentUser = data.student_id;
+                document.getElementById('student_name_title').textContent = studentName;
+                document.getElementById('student_name_header').textContent = studentName;
+                document.getElementById('student_name').textContent = studentName;
+                document.getElementById('group_number').textContent = data.group_number || '—';
+                renderSchedule(data.group_number);
+
+                const dormNum = data.room && String(data.room) >= '200' ? '№2 (Северный)' : '№1 (Центральный)';
+                document.getElementById('dormitory').textContent = dormNum;
+                document.getElementById('room').textContent = data.room || '—';
+
+                loadMyRequests();
+                loadShowerSchedule();
+                loadMyLaundry();
+                loadDutySchedule();
+                loadSubbotniks();
+                loadGymSchedule();
+                showToast('Добро пожаловать, ' + studentName + '!');
+            }
+        })
+        .catch(() => {
+            navigateWithTransition('/');
+        });
+</script>
+
+</body>
+</html>

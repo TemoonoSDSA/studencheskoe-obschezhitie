@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление студентами подгрупп</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --purple: #8b5cf6;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body.light-theme {
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: var(--warning);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            z-index: 100;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        h1 {
+            color: var(--text);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 { color: var(--text); margin-bottom: 16px; font-size: 1.2rem; }
+        
+        .nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--card-bg);
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .nav a.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-color: transparent;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+        
+        th {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        td { color: var(--text); }
+        
+        tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        tr:last-child td { border-bottom: none; }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-add { background: var(--success); color: white; }
+        .btn-edit { background: var(--warning); color: white; }
+        .btn-delete { background: var(--danger); color: white; }
+        .btn-reset { background: var(--purple); color: white; }
+        
+        .password-cell { font-family: monospace; color: var(--primary); font-weight: 600; }
+        
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal {
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+        
+        .modal h2 { margin-bottom: 24px; color: var(--text); }
+        
+        .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+        .modal-actions .btn { flex: 1; padding: 14px; }
+        
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-bar input, .filter-bar select {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        
+        .filter-bar input {
+            min-width: 200px;
+        }
+        
+        .filter-bar input:focus, .filter-bar select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        
+        .msg {
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .msg.success { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid var(--success); }
+        .msg.error { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid var(--danger); }
+        
+        body.light-theme .msg.success { color: #065f46; }
+        body.light-theme .msg.error { color: #991b1b; }
+        
+        @media (max-width: 768px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-bar input, .filter-bar select {
+                width: 100%;
+            }
+            
+            .nav {
+                flex-direction: column;
+            }
+            
+            .nav a {
+                justify-content: center;
+            }
+            
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="themeText">Тёмная тема</span>
+    </button>
+<body>
+    <div class="card">
+        <h1>Управление студентами подгрупп</h1>
+        <div class="nav">
+            <a href="/admin/users">Админ-панель</a>
+            <a href="/admin/students-groups-page" class="active">Студенты подгрупп</a>
+        </div>
+        <div class="msg" id="msg"></div>
+        <div class="filter-bar">
+            <input type="text" id="searchName" placeholder="Поиск по ФИО..." oninput="loadStudents()" style="padding: 10px; border: 1px solid var(--border); border-radius: 8px; min-width: 200px; background: var(--card-bg); color: var(--text);">
+            <select id="filterGroup" onchange="loadStudents()">
+                <option value="">Все группы</option>
+                <option value="101">101 — Информационные системы</option>
+                <option value="102">102 — Прикладная информатика</option>
+                <option value="103">103 — Сетевое администрирование</option>
+                <option value="104">104 — Кибербезопасность</option>
+                <option value="105">105 — Дизайн и графика</option>
+                <option value="106">106 — Экономика и учет</option>
+                <option value="107">107 — Менеджмент</option>
+                <option value="108">108 — Юриспруденция</option>
+            </select>
+            <button class="btn btn-add" onclick="openAddModal()">+ Добавить студента</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Логин</th>
+                    <th>ФИО</th>
+                    <th>Группа</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Пароль</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="studentsBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitle">Добавить студента</h2>
+            <form id="studentForm">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label>Логин *</label>
+                    <input type="text" id="formLogin" required minlength="3" maxlength="32">
+                </div>
+                <div class="form-group">
+                    <label>Пароль <span id="passwordHint">*</span></label>
+                    <input type="password" id="formPassword" minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>ФИО *</label>
+                    <input type="text" id="formFullName" required minlength="2">
+                </div>
+                <div class="form-group">
+                    <label>Группа *</label>
+                    <select id="formGroup" required>
+                        <option value="101">101 — Информационные системы</option>
+                        <option value="102">102 — Прикладная информатика</option>
+                        <option value="103">103 — Сетевое администрирование</option>
+                        <option value="104">104 — Кибербезопасность</option>
+                        <option value="105">105 — Дизайн и графика</option>
+                        <option value="106">106 — Экономика и учет</option>
+                        <option value="107">107 — Менеджмент</option>
+                        <option value="108">108 — Юриспруденция</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="formEmail">
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" id="formPhone">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" style="background:#334155; color:#e2e8f0;" onclick="closeModal()">Отмена</button>
+                    <button type="submit" class="btn btn-add" id="formSubmitBtn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            document.getElementById('themeText').textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
+            localStorage.setItem('adminTheme', isLight ? 'light' : 'dark');
+        }
+        
+        if (localStorage.getItem('adminTheme') === 'light') {
+            document.body.classList.add('light-theme');
+            document.getElementById('themeText').textContent = 'Тёмная тема';
+        } else {
+            document.body.classList.remove('light-theme');
+            document.getElementById('themeText').textContent = 'Светлая тема';
+        }
+        
+        const msgEl = document.getElementById('msg');
+        function showMsg(text, type) {
+            msgEl.textContent = text;
+            msgEl.className = 'msg ' + type;
+            msgEl.style.display = 'block';
+            setTimeout(() => { msgEl.style.display = 'none'; }, 3000);
+        }
+
+        async function loadStudents() {
+            const group = document.getElementById('filterGroup').value;
+            const search = document.getElementById('searchName').value.trim();
+            let url = '/api/admin/students-groups';
+            const params = [];
+            if (group) params.push('group=' + group);
+            if (search) params.push('search=' + encodeURIComponent(search));
+            if (params.length) url += '?' + params.join('&');
+            const res = await fetch(url);
+            const data = await res.json();
+            if (!data.success) { showMsg('Ошибка загрузки', 'error'); return; }
+            const tbody = document.getElementById('studentsBody');
+            tbody.innerHTML = data.students.map(s => `
+                <tr>
+                    <td>${s.id}</td>
+                    <td><strong>${escapeHtml(s.login)}</strong></td>
+                    <td>${escapeHtml(s.full_name)}</td>
+                    <td>${s.group_number}</td>
+                    <td>${escapeHtml(s.email || '—')}</td>
+                    <td>${escapeHtml(s.phone || '—')}</td>
+                    <td>
+                        <button class="btn btn-reset" onclick="resetPassword(${s.id}, '${escapeHtml(s.login)}')">Сбросить</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-edit" onclick="editStudent(${s.id})">Изменить</button>
+                        <button class="btn btn-delete" onclick="deleteStudent(${s.id}, '${escapeHtml(s.full_name)}')">Удалить</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function escapeHtml(v) {
+            const d = document.createElement('div');
+            d.textContent = v;
+            return d.innerHTML;
+        }
+
+        document.getElementById('filterGroup').addEventListener('change', loadStudents);
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Добавить студента';
+            document.getElementById('editId').value = '';
+            document.getElementById('studentForm').reset();
+            document.getElementById('formPassword').required = true;
+            document.getElementById('passwordHint').textContent = '*';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function editStudent(id) {
+            const res = await fetch('/api/admin/students-groups');
+            const data = await res.json();
+            if (!data.success) return;
+            const s = data.students.find(x => x.id === id);
+            if (!s) return;
+            document.getElementById('modalTitle').textContent = 'Редактировать студента';
+            document.getElementById('editId').value = s.id;
+            document.getElementById('formLogin').value = s.login;
+            document.getElementById('formPassword').value = '';
+            document.getElementById('formPassword').required = false;
+            document.getElementById('passwordHint').textContent = '(оставьте пустым чтобы не менять)';
+            document.getElementById('formFullName').value = s.full_name;
+            document.getElementById('formGroup').value = s.group_number;
+            document.getElementById('formEmail').value = s.email || '';
+            document.getElementById('formPhone').value = s.phone || '';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editId').value;
+            const body = {
+                login: document.getElementById('formLogin').value,
+                password: document.getElementById('formPassword').value,
+                full_name: document.getElementById('formFullName').value,
+                group_number: document.getElementById('formGroup').value,
+                email: document.getElementById('formEmail').value,
+                phone: document.getElementById('formPhone').value
+            };
+            const url = editId ? '/api/admin/students-groups/' + editId : '/api/admin/students-groups';
+            const method = editId ? 'PUT' : 'POST';
+            const res = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (data.success) {
+                showMsg(editId ? 'Студент обновлён' : 'Студент добавлен', 'success');
+                closeModal();
+                loadStudents();
+            } else {
+                showMsg(data.error || 'Ошибка', 'error');
+            }
+        });
+
+        async function deleteStudent(id, name) {
+            if (!confirm('Удалить студента "' + name + '"?')) return;
+            const res = await fetch('/api/admin/students-groups/' + id, { method: 'DELETE' });
+            const data = await res.json();
+            if (data.success) {
+                showMsg('Студент удалён', 'success');
+                loadStudents();
+            } else {
+                showMsg(data.error || 'Ошибка', 'error');
+            }
+        }
+
+        async function resetPassword(id, login) {
+            const newPass = prompt('Новый пароль для ' + login + ':\n(оставьте пустым для автоматической генерации)');
+            const password = newPass !== null ? newPass : '';
+            
+            if (password && password.length < 6) {
+                showMsg('Пароль минимум 6 символов', 'error');
+                return;
+            }
+            
+            const body = password ? { password } : {};
+            const res = await fetch('/api/admin/students-groups/' + id + '/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (data.success) {
+                showMsg('Новый пароль: ' + data.password, 'success');
+            } else {
+                showMsg(data.error || 'Ошибка', 'error');
+            }
+        }
+
+        loadStudents();
+    </script>
+</body>
+</html>

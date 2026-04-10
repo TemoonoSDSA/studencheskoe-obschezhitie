@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Презентация — Уютный Дом 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #0f1419;
+      color: #e8eaed;
+      overflow: hidden;
+    }
+    .deck {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .slide {
+      display: none;
+      max-width: 960px;
+      width: 100%;
+      animation: fadeIn 0.35s ease;
+    }
+    .slide.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-inner {
+      background: linear-gradient(145deg, #1a2332 0%, #15202b 100%);
+      border: 1px solid #2d3a4d;
+      border-radius: 16px;
+      padding: 2.5rem 3rem;
+      min-height: 420px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.35);
+    }
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      color: #7dd3fc;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 0.5rem;
+    }
+    .subtitle { color: #94a3b8; font-size: 1.1rem; margin-bottom: 1.5rem; }
+    ul { margin-left: 1.25rem; line-height: 1.75; }
+    li { margin-bottom: 0.5rem; }
+    .muted { color: #94a3b8; font-size: 0.95rem; margin-top: 1rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #334155;
+    }
+    th { color: #cbd5e1; font-weight: 600; }
+    .bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem 1.5rem;
+      background: rgba(15, 20, 25, 0.92);
+      border-top: 1px solid #2d3a4d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    .bar button {
+      background: #334155;
+      color: #e2e8f0;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .bar button:hover { background: #475569; }
+    .bar button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .logo {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #38bdf8;
+      margin-bottom: 0.75rem;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    ol { margin-left: 1.25rem; line-height: 1.85; }
+    ol li { margin-bottom: 0.4rem; }
+    @media (max-width: 720px) {
+      .slide-inner { padding: 1.5rem; min-height: auto; }
+      h1 { font-size: 1.75rem; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <!-- 1 -->
+    <section class="slide active" data-i="0">
+      <div class="slide-inner">
+        <span class="logo">Курсовой проект</span>
+        <h1>«Уютный Дом 2026»</h1>
+        <p class="subtitle">Веб-приложение для студенческого городка</p>
+        <ul>
+          <li>Учёт студентов и распределение по комнатам</li>
+          <li>Система заявок в службу поддержки</li>
+          <li>Расписание занятий по группам</li>
+          <li>Админ-панель со статистикой и уведомлениями в реальном времени</li>
+        </ul>
+        <p class="muted">Node.js · Express · SQLite · Socket.IO</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" data-i="1">
+      <div class="slide-inner">
+        <h2>Цель и задачи</h2>
+        <ul>
+          <li><strong>Цель:</strong> автоматизировать управление общежитием и упростить взаимодействие студентов с администрацией.</li>
+          <li>Обеспечить безопасную аутентификацию (сессии, bcrypt-хеши паролей).</li>
+          <li>Дать студенту личный кабинет с информацией о проживании и расписании.</li>
+          <li>Предоставить администратору панель управления с обновлениями в реальном времени.</li>
+          <li>Включить статистику по студентам и заявкам для анализа.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" data-i="2">
+      <div class="slide-inner">
+        <h2>Функциональность</h2>
+        <div class="two-col">
+          <div>
+            <p><strong>Студент</strong></p>
+            <ul>
+              <li>Вход по логину и паролю</li>
+              <li>Личный кабинет с данными о комнате</li>
+              <li>Расписание на неделю по группе</li>
+              <li>Отправка заявок в поддержку</li>
+              <li>Просмотр ответов и даты визита мастера</li>
+              <li>Тёмная / светлая тема</li>
+            </ul>
+          </div>
+          <div>
+            <p><strong>Администратор</strong></p>
+            <ul>
+              <li>Управление студентами (CRUD)</li>
+              <li>Массовое добавление по группам</li>
+              <li>Обработка заявок (ответы, статус, мастер)</li>
+              <li>Статистика по студентам и заявкам</li>
+              <li>Уведомления в реальном времени (WebSocket)</li>
+              <li>Поиск и фильтрация по группам</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" data-i="3">
+      <div class="slide-inner">
+        <h2>Технологический стек</h2>
+        <table>
+          <thead>
+            <tr><th>Компонент</th><th>Назначение</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Express</td><td>HTTP-сервер, маршрутизация, статика</td></tr>
+            <tr><td>SQLite</td><td>База данных (студенты, заявки)</td></tr>
+            <tr><td>express-session</td><td>Сессии в cookie</td></tr>
+            <tr><td>bcrypt</td><td>Хеширование паролей</td></tr>
+            <tr><td>Socket.IO</td><td>Уведомления в реальном времени</td></tr>
+            <tr><td>helmet</td><td>HTTP-заголовки безопасности</td></tr>
+            <tr><td>express-rate-limit</td><td>Ограничение попыток входа</td></tr>
+            <tr><td>morgan</td><td>Журналирование HTTP-запросов</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" data-i="4">
+      <div class="slide-inner">
+        <h2>Архитектура и безопасность</h2>
+        <ul>
+          <li>Один процесс Node.js: HTTP + Socket.IO на общем сервере.</li>
+          <li>Параметризованные SQL-запросы — защита от инъекций.</li>
+          <li>Ограничение неудачных попыток входа (rate limit).</li>
+          <li>Разграничение ролей: <code>requireRole('admin')</code> для API админки.</li>
+          <li>Хеширование паролей через bcrypt (10 раундов).</li>
+          <li>CSP-заголовки через helmet.</li>
+        </ul>
+        <p class="muted">Секрет сессии и порт настраиваются через .env.</p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" data-i="5">
+      <div class="slide-inner">
+        <h2>Хранение данных</h2>
+        <table>
+          <thead>
+            <tr><th>Данные</th><th>Место хранения</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Студенты (80 шт.)</td><td>Таблица <code>students_groups</code> в <code>dormitory.db</code></td></tr>
+            <tr><td>Заявки в поддержку</td><td>Таблица <code>requests</code> в <code>dormitory.db</code></td></tr>
+            <tr><td>Журнал HTTP-запросов</td><td>Файл <code>access.log</code></td></tr>
+          </tbody>
+        </table>
+        <p class="muted">8 групп (101–108) × 10 студентов = 80 записей. 2 корпуса, 200 комнат.</p>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" data-i="6">
+      <div class="slide-inner">
+        <h2>Демонстрация на защите</h2>
+        <ol>
+          <li><code>npm install</code> → <code>node server.js</code> (порт 3001).</li>
+          <li>Вход студента (<code>student101_1</code> / <code>pass01</code>) → личный кабинет → расписание → отправка заявки.</li>
+          <li>Во второй вкладке: вход админа (<code>admin</code> / <code>12345</code>) → панель управления → ответ на заявку.</li>
+          <li>Показать статистику: студенты по группам, заявки по статусу и месяцам.</li>
+          <li>Показать появление заявки у студента без перезагрузки (Socket.IO).</li>
+          <li>Выход через <code>/logout</code> — кабинет недоступен без сессии.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" data-i="7">
+      <div class="slide-inner">
+        <h2>Итоги</h2>
+        <ul>
+          <li>Реализовано полноценное веб-приложение с клиентской и административной частью.</li>
+          <li>Данные централизованы в SQLite; заявки синхронизируются через WebSocket.</li>
+          <li>Заложены основы безопасности: сессии, bcrypt, rate limit, CSP-заголовки.</li>
+          <li>Адаптивный дизайн с поддержкой тёмной темы.</li>
+          <li>Система статистики для анализа данных общежития.</li>
+        </ul>
+        <p class="muted">Спасибо за внимание. Готов ответить на вопросы.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="bar">
+    <button type="button" id="prev" aria-label="Предыдущий слайд">← Назад</button>
+    <span id="counter">1 / 8</span>
+    <button type="button" id="next" aria-label="Следующий слайд">Вперёд →</button>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const total = slides.length;
+      let index = 0;
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      const counter = document.getElementById('counter');
+
+      function show(i) {
+        index = Math.max(0, Math.min(total - 1, i));
+        slides.forEach((s, j) => s.classList.toggle('active', j === index));
+        counter.textContent = (index + 1) + ' / ' + total;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === total - 1;
+      }
+
+      prevBtn.addEventListener('click', () => show(index - 1));
+      nextBtn.addEventListener('click', () => show(index + 1));
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(index - 1);
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+          e.preventDefault();
+          show(index + 1);
+        }
+      });
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>
